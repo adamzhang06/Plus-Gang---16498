@@ -27,16 +27,33 @@ public class AutoTest extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())
-//                .forward(DISTANCE)
-//                .lineTo(
-//                        new Vector2d(42.5, 0),
-//                        SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-//                )
-                .lineToLinearHeading(new Pose2d(42.5, 0, Math.toRadians(90)),
-                        SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+        Trajectory part1 = drive.trajectoryBuilder(new Pose2d())
+                //40 = 25
+
+                .lineTo(
+                        new Vector2d(45.8, 0),
+                        SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build();
+
+        Trajectory part2 = drive.trajectoryBuilder(new Pose2d())
+                .lineTo(
+                        new Vector2d(-15, 0),
+                        SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build();
+
+        Trajectory part3 = drive.trajectoryBuilder(new Pose2d())
+                .strafeTo(
+                        new Vector2d(15, 50)
+                )
+                .build();
+
+        Trajectory part4 = drive.trajectoryBuilder(new Pose2d())
+                .lineToLinearHeading(
+                        new Pose2d(0, 0, Math.toRadians(90))
                 )
                 .build();
 
@@ -44,9 +61,18 @@ public class AutoTest extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        drive.followTrajectory(trajectory);
-
         Pose2d poseEstimate = drive.getPoseEstimate();
+        telemetry.addData("startX", poseEstimate.getX());
+        telemetry.addData("startY", poseEstimate.getY());
+        telemetry.addData("startHeading", poseEstimate.getHeading());
+        telemetry.update();
+
+        drive.followTrajectory(part1);
+        drive.followTrajectory(part2);
+        drive.followTrajectory(part3);
+        drive.followTrajectory(part4);
+
+        poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
         telemetry.addData("finalY", poseEstimate.getY());
         telemetry.addData("finalHeading", poseEstimate.getHeading());
