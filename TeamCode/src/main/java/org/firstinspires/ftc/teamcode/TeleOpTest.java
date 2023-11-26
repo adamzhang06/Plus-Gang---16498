@@ -44,10 +44,12 @@ public class TeleOpTest extends LinearOpMode {
     private DcMotor frontRight;
     private DcMotor backRight;
 
-    private DcMotor wristMotor;
     private DcMotor armMotor;
     private Servo grabberServo;
+    private Servo wristServo;
+    private Servo launcherServo;
     private DcMotor winchMotor;
+    private DcMotor slideMotor;
 
 
     @Override
@@ -59,14 +61,19 @@ public class TeleOpTest extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
 
-        wristMotor = hardwareMap.get(DcMotor.class, "wristMotor");
+//        wristMotor = hardwareMap.get(DcMotor.class, "wristMotor");
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         grabberServo = hardwareMap.get(Servo.class, "grabberServo");
+        wristServo = hardwareMap.get(Servo.class, "wristServo");
         winchMotor = hardwareMap.get(DcMotor.class, "winchMotor");
+        slideMotor = hardwareMap.get(DcMotor.class, "slideMotor");
+        launcherServo = hardwareMap.get(Servo.class, "launcherServo");
 
         double grabberPos = 0.1;
         double grabberMinPos = 0.9;
         double grabberMaxPos = 1;
+
+        double wristPos = 0.1;
 
         double direction = 1;
 
@@ -79,7 +86,7 @@ public class TeleOpTest extends LinearOpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -87,6 +94,8 @@ public class TeleOpTest extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
+            // gamepad 1 controls
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1; // Counteract imperfect strafing
 //            int direction = 1;
@@ -125,8 +134,58 @@ public class TeleOpTest extends LinearOpMode {
             frontRight.setPower(frontRightPower / s);
             backRight.setPower(backRightPower / s);
 
-            // arm controls
+            // winch
+            if(gamepad1.dpad_down) // winch down
+                winchMotor.setPower(-1);
+            else if(gamepad1.dpad_up) // winch up
+                winchMotor.setPower(1);
+            else
+                winchMotor.setPower(0);
 
+            // switching directions
+
+            if(gamepad1.y) {
+                direction = -1;
+                backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+                frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+                frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+                backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+            }
+            else if(gamepad1.b) {
+                direction = 1;
+                backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+                frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+                frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+                backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+            }
+
+            if(gamepad1.back) { // launch
+                launcherServo.setPosition(1);
+//                sleep(1000);
+//                launcherServo.setPosition(0);
+            }
+            if(gamepad1.start) { // reset
+                launcherServo.setPosition(0);
+            }
+
+            if(gamepad1.left_trigger != 0) {
+                slideMotor.setPower(-gamepad1.left_trigger);
+            }
+            else
+                slideMotor.setPower(0);
+            if(gamepad1.right_trigger != 0) {
+                slideMotor.setPower(gamepad1.right_trigger);
+            }
+            else
+                slideMotor.setPower(0);
+
+
+
+
+
+            // gamepad 2 controls
+
+            // arm
             if(gamepad2.left_trigger != 0) { // arm up
                 armMotor.setPower(-gamepad2.left_trigger);
                 telemetry.addData("left trigger: ", -gamepad2.left_trigger);
@@ -134,7 +193,6 @@ public class TeleOpTest extends LinearOpMode {
             }
             else
                 armMotor.setPower(0);
-
 
             if(gamepad2.right_trigger != 0) { // arm down
                 armMotor.setPower(gamepad2.right_trigger);
@@ -145,74 +203,30 @@ public class TeleOpTest extends LinearOpMode {
                 armMotor.setPower(0);
 
 
-            // grabber controls
-
-            if(gamepad2.a) {
-                grabberPos -= 0.1;
-                grabberServo.setPosition(1);
+            // grabber
+            if(gamepad2.left_bumper) { // pinch grabber
+//                grabberPos -= 0.1;
+                grabberServo.setPosition(0);
 //                telemetry.addData("grabber position: ", grabberPos);
 //                telemetry.update();
             }
 
-            if(gamepad2.b) {
-                grabberPos += 0.1;
-                grabberServo.setPosition(0.9);
+            if(gamepad2.right_bumper) { // release grabber
+//                grabberPos += 0.1;
+                grabberServo.setPosition(0.5);
 //                telemetry.addData("grabber position: ", grabberPos);
 //                telemetry.update();
             }
 
-            if(grabberPos >= 1)
-                grabberPos = 1;
-            if(grabberPos <= 0.9)
-                grabberPos = 0.9;
-
-            grabberServo.setPosition(Range.clip(grabberPos, grabberMinPos, grabberMaxPos));
-
-            if(gamepad2.left_bumper)
-                wristMotor.setPower(-1);
-            else if(gamepad2.right_bumper)
-                wristMotor.setPower(1);
-            else
-                wristMotor.setPower(0);
-
-
-            // switching directions
-
-            if(gamepad1.y) {
-                direction = -1;
-                backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-                frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-                frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
-                backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+            // wrist
+            if(gamepad2.left_stick_x != 0) {
+                wristPos += gamepad2.left_stick_x;
+                if(wristPos < 0)
+                    wristPos = 0;
+                if(wristPos > 1)
+                    wristPos = 1;
+                wristServo.setPosition(wristPos);
             }
-            else if(gamepad1.b) {
-                direction = 1;
-                backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-                frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-                frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-                backRight.setDirection(DcMotorSimple.Direction.FORWARD);
-            }
-
-            if(gamepad2.dpad_up) { // pull winch
-                winchMotor.setPower(1);
-            }
-            else {
-                winchMotor.setPower(0);
-            }
-
-            if(gamepad2.dpad_down) { // retract winch
-                winchMotor.setPower(-1);
-            }
-            else {
-                winchMotor.setPower(0);
-            }
-
-
-
-//            telemetry.addData("left encoder", frontLeft.getCurrentPosition());
-//            telemetry.addData("center encoder", backLeft.getCurrentPosition());
-//            telemetry.addData("right encoder", frontRight.getCurrentPosition());
-//            telemetry.update();
         }
     }
 }
