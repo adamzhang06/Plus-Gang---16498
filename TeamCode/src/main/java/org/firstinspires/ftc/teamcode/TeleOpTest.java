@@ -206,7 +206,7 @@ public class TeleOpTest extends LinearOpMode {
             // grabber
             if(gamepad2.left_bumper) { // pinch grabber
 //                grabberPos -= 0.1;
-                grabberServo.setPosition(0);
+                grabberServo.setPosition(0.2);
 //                telemetry.addData("grabber position: ", grabberPos);
 //                telemetry.update();
             }
@@ -220,13 +220,23 @@ public class TeleOpTest extends LinearOpMode {
 
             // wrist
             if(gamepad2.left_stick_x != 0) {
-                wristPos += gamepad2.left_stick_x;
+                wristPos += -gamepad2.left_stick_x;
                 if(wristPos < 0)
                     wristPos = 0;
                 if(wristPos > 1)
                     wristPos = 1;
                 wristServo.setPosition(wristPos);
             }
+
+            // slide
+            if(gamepad2.y) { // slide up
+                slideMotor.setPower(1);
+            }
+            else if(gamepad2.a) { // slide down
+                slideMotor.setPower(-1);
+            }
+            else
+                slideMotor.setPower(0);
         }
     }
 }
