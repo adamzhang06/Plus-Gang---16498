@@ -51,28 +51,38 @@ public class AutoTest extends LinearOpMode {
                 )
                 .build();
 
-        Trajectory part4 = drive.trajectoryBuilder(new Pose2d())
-                .lineToLinearHeading(
-                        new Pose2d(0, 0, Math.toRadians(90))
-                )
-                .build();
+//        Trajectory part4 = drive.trajectoryBuilder(new Pose2d())
+//                .lineToLinearHeading(
+//                        new Pose2d(0, 0, Math.toRadians(90))
+//                )
+//                .build();
+        //
+        //
+        //
+        //
+        //
+        // TRY MAKING LATERAL DISTANCE NEGATIVE
+        // TRY MAKING LATERAL DISTANCE NEGATIVE
+
+
+
+
+
+
+
+
 
         waitForStart();
 
         if (isStopRequested()) return;
 
-        Pose2d poseEstimate = drive.getPoseEstimate();
-        telemetry.addData("startX", poseEstimate.getX());
-        telemetry.addData("startY", poseEstimate.getY());
-        telemetry.addData("startHeading", poseEstimate.getHeading());
-        telemetry.update();
-
         drive.followTrajectory(part1);
         drive.followTrajectory(part2);
         drive.followTrajectory(part3);
-        drive.followTrajectory(part4);
+//        drive.followTrajectory(part4);
+        drive.turn(Math.toRadians(-90));
 
-        poseEstimate = drive.getPoseEstimate();
+        Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
         telemetry.addData("finalY", poseEstimate.getY());
         telemetry.addData("finalHeading", poseEstimate.getHeading());

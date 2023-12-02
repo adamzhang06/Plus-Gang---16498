@@ -57,8 +57,9 @@ import java.util.concurrent.TimeUnit;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
-@Autonomous(name = "HuskyLens", group = "Sensor")
-public class HuskyTest extends LinearOpMode {
+@Autonomous(name = "HuskyColorTest", group = "HuskyTest")
+//@Disabled
+public class HuskyColorTest extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
 
@@ -108,7 +109,7 @@ public class HuskyTest extends LinearOpMode {
          * within the OpMode by calling selectAlgorithm() and passing it one of the values
          * found in the enumeration HuskyLens.Algorithm.
          */
-        huskyLens.selectAlgorithm(HuskyLens.Algorithm.TAG_RECOGNITION);
+        huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
         telemetry.update();
         waitForStart();
@@ -119,11 +120,13 @@ public class HuskyTest extends LinearOpMode {
          *
          * Note again that the device only recognizes the 36h11 family of tags out of the box.
          */
+
         while(opModeIsActive()) {
             if (!rateLimit.hasExpired()) {
                 continue;
             }
             rateLimit.reset();
+
 
             /*
              * All algorithms, except for LINE_TRACKING, return a list of Blocks where a
@@ -137,7 +140,13 @@ public class HuskyTest extends LinearOpMode {
             HuskyLens.Block[] blocks = huskyLens.blocks();
             telemetry.addData("Block count", blocks.length);
             for (int i = 0; i < blocks.length; i++) {
-                telemetry.addData("Block", blocks[i].toString());
+//                telemetry.addData("Block", blocks[i].toString());
+//                int thisColorID = blocks[i].id;                      // save the current recognition's Color ID
+//                telemetry.addData("This Color ID", thisColorID);     // display that Color ID
+                if (blocks[i].id == 1 && blocks[i].width > 15){
+                    telemetry.addData("xpos", blocks[i].x);
+                }
+
             }
 
             telemetry.update();
