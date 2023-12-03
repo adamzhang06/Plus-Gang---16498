@@ -61,6 +61,7 @@ import java.util.concurrent.TimeUnit;
 //@Disabled
 public class HuskyColorTest extends LinearOpMode {
 
+    //      this part isn't used in auto, Elapsed time is
     private final int READ_PERIOD = 1;
 
     private HuskyLens huskyLens;
@@ -75,11 +76,13 @@ public class HuskyColorTest extends LinearOpMode {
          * what is happening on the Driver Station telemetry.  Typical applications
          * would not likely rate limit.
          */
+        //      this part isn't used in auto, Elapsed time is
         Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
 
         /*
          * Immediately expire so that the first time through we'll do the read.
          */
+        //      this part isn't used in auto, Elapsed time is
         rateLimit.expire();
 
         /*
@@ -120,7 +123,7 @@ public class HuskyColorTest extends LinearOpMode {
          *
          * Note again that the device only recognizes the 36h11 family of tags out of the box.
          */
-
+//      this part isn't used in auto, Elapsed time is
         while(opModeIsActive()) {
             if (!rateLimit.hasExpired()) {
                 continue;
