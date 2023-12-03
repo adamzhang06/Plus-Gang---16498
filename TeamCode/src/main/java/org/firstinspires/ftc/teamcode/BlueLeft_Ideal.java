@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import java.util.concurrent.TimeUnit;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -36,6 +37,10 @@ public class BlueLeft_Ideal extends LinearOpMode {
     private DcMotor frontRight;
     private DcMotor backRight;
 
+    private DcMotor armMotor;
+    private Servo grabberServo;
+    private Servo wristServo;
+
     // huskylens constants
     private HuskyLens huskyLens;
     
@@ -49,6 +54,12 @@ public class BlueLeft_Ideal extends LinearOpMode {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+
+        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        grabberServo = hardwareMap.get(Servo.class, "grabberServo");
+        wristServo = hardwareMap.get(Servo.class, "wristServo");
+
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //define huskylens
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
@@ -168,6 +179,13 @@ public class BlueLeft_Ideal extends LinearOpMode {
             telemetry.update();
             //run trajectoryLeft
             drive.followTrajectorySequence(spikeLeft);
+            grabberServo.setPosition(0.2);
+            while(armMotor.getCurrentPosition() <= 1000) {
+                armMotor.setPower(-0.5);
+                telemetry.addData("position: ", armMotor.getCurrentPosition());
+                telemetry.update();
+            }
+            grabberServo.setPosition(0.5);
         }
 
         if (x_pos >= 107 && x_pos <= 213) {

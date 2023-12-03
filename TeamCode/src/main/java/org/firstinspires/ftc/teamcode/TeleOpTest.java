@@ -237,6 +237,9 @@ public class TeleOpTest extends LinearOpMode {
             }
             else
                 slideMotor.setPower(0);
+
+            telemetry.addData("arm position: ", armMotor.getCurrentPosition());
+            telemetry.update();
         }
     }
 }
