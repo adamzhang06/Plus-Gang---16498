@@ -155,7 +155,8 @@ public class SampleMecanumDrive extends MecanumDrive {
         return new TrajectoryBuilder(startPose, startHeading, VEL_CONSTRAINT, ACCEL_CONSTRAINT);
     }
 
-    public TrajectorySequenceBuilder trajectorySequenceBuilder(Pose2d startPose) {
+    public TrajectorySequenceBuilder trajectorySequenceBuilder() {
+        Pose2d startPose = new Pose2d(0, 0, 0); //TODO this may be wrong
         return new TrajectorySequenceBuilder(
                 startPose,
                 VEL_CONSTRAINT, ACCEL_CONSTRAINT,
@@ -165,7 +166,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public void turnAsync(double angle) {
         trajectorySequenceRunner.followTrajectorySequenceAsync(
-                trajectorySequenceBuilder(getPoseEstimate())
+                trajectorySequenceBuilder()
                         .turn(angle)
                         .build()
         );
@@ -178,7 +179,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public void followTrajectoryAsync(Trajectory trajectory) {
         trajectorySequenceRunner.followTrajectorySequenceAsync(
-                trajectorySequenceBuilder(trajectory.start())
+                trajectorySequenceBuilder()
                         .addTrajectory(trajectory)
                         .build()
         );
@@ -300,9 +301,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
     }
 
+    // TODO this should be x but it works as y
     @Override
     public Double getExternalHeadingVelocity() {
-        return (double) imu.getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
+        return (double) imu.getRobotAngularVelocity(AngleUnit.RADIANS).yRotationRate;
     }
 
     public static TrajectoryVelocityConstraint getVelocityConstraint(double maxVel, double maxAngularVel, double trackWidth) {

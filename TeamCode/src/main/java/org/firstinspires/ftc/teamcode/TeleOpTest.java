@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "TeleOpTest", group = "test")
+@TeleOp(name = "TeleOp", group = "Main")
 
 public class TeleOpTest extends LinearOpMode {
     private DcMotor backLeft;
@@ -136,9 +136,9 @@ public class TeleOpTest extends LinearOpMode {
 
             // winch
             if(gamepad1.dpad_down) // winch down
-                winchMotor.setPower(-1);
-            else if(gamepad1.dpad_up) // winch up
                 winchMotor.setPower(1);
+            else if(gamepad1.dpad_up) // winch up
+                winchMotor.setPower(-1);
             else
                 winchMotor.setPower(0);
 
