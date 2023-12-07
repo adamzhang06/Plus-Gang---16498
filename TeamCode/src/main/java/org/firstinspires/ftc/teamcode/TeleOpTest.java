@@ -90,6 +90,8 @@ public class TeleOpTest extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
@@ -98,9 +100,9 @@ public class TeleOpTest extends LinearOpMode {
             // gamepad 1 controls
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1; // Counteract imperfect strafing
-//            int direction = 1;
+//
             double rx = gamepad1.right_stick_x;
-            if(direction == -1) {
+            if(direction == 1) {
                 rx = gamepad1.right_stick_x * -1;
             }
             else {
@@ -122,9 +124,9 @@ public class TeleOpTest extends LinearOpMode {
             double backRightPower = (y + x - rx) / denominator;
 
             if (gamepad1.left_bumper)
-                s = 2;
-            else if (gamepad1.right_bumper)
                 s = 4;
+            else if (gamepad1.right_bumper)
+                s = 2;
             else
                 s = 1;
 
@@ -145,14 +147,14 @@ public class TeleOpTest extends LinearOpMode {
             // switching directions
 
             if(gamepad1.y) {
-                direction = -1;
+                direction = 1;
                 backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
                 frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
                 frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
                 backRight.setDirection(DcMotorSimple.Direction.FORWARD);
             }
             else if(gamepad1.b) {
-                direction = 1;
+                direction = -1;
                 backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
                 frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
                 frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -206,7 +208,7 @@ public class TeleOpTest extends LinearOpMode {
             // grabber
             if(gamepad2.left_bumper) { // pinch grabber
 //                grabberPos -= 0.1;
-                grabberServo.setPosition(0.2);
+                grabberServo.setPosition(0.39);
 //                telemetry.addData("grabber position: ", grabberPos);
 //                telemetry.update();
             }
