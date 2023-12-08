@@ -29,8 +29,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -38,9 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-
-@TeleOp(name = "TeleOpTest", group = "test")
+@TeleOp(name = "TeleOp", group = "Main")
 
 public class TeleOpTest extends LinearOpMode {
     private DcMotor backLeft;
@@ -87,13 +83,15 @@ public class TeleOpTest extends LinearOpMode {
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // reverse motors
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
@@ -102,9 +100,9 @@ public class TeleOpTest extends LinearOpMode {
             // gamepad 1 controls
             double y = -gamepad1.left_stick_y; // Remember, this is reversed!
             double x = gamepad1.left_stick_x * 1; // Counteract imperfect strafing
-//            int direction = 1;
+//
             double rx = gamepad1.right_stick_x;
-            if(direction == -1) {
+            if(direction == 1) {
                 rx = gamepad1.right_stick_x * -1;
             }
             else {
@@ -126,9 +124,9 @@ public class TeleOpTest extends LinearOpMode {
             double backRightPower = (y + x - rx) / denominator;
 
             if (gamepad1.left_bumper)
-                s = 2;
-            else if (gamepad1.right_bumper)
                 s = 4;
+            else if (gamepad1.right_bumper)
+                s = 2;
             else
                 s = 1;
 
@@ -140,23 +138,23 @@ public class TeleOpTest extends LinearOpMode {
 
             // winch
             if(gamepad1.dpad_down) // winch down
-                winchMotor.setPower(-1);
-            else if(gamepad1.dpad_up) // winch up
                 winchMotor.setPower(1);
+            else if(gamepad1.dpad_up) // winch up
+                winchMotor.setPower(-1);
             else
                 winchMotor.setPower(0);
 
             // switching directions
 
             if(gamepad1.y) {
-                direction = -1;
+                direction = 1;
                 backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
                 frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
                 frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
                 backRight.setDirection(DcMotorSimple.Direction.FORWARD);
             }
             else if(gamepad1.b) {
-                direction = 1;
+                direction = -1;
                 backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
                 frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
                 frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -210,7 +208,7 @@ public class TeleOpTest extends LinearOpMode {
             // grabber
             if(gamepad2.left_bumper) { // pinch grabber
 //                grabberPos -= 0.1;
-                grabberServo.setPosition(0);
+                grabberServo.setPosition(0.39);
 //                telemetry.addData("grabber position: ", grabberPos);
 //                telemetry.update();
             }
@@ -224,13 +222,26 @@ public class TeleOpTest extends LinearOpMode {
 
             // wrist
             if(gamepad2.left_stick_x != 0) {
-                wristPos += gamepad2.left_stick_x;
+                wristPos += -gamepad2.left_stick_x;
                 if(wristPos < 0)
                     wristPos = 0;
                 if(wristPos > 1)
                     wristPos = 1;
                 wristServo.setPosition(wristPos);
             }
+
+            // slide
+            if(gamepad2.y) { // slide up
+                slideMotor.setPower(1);
+            }
+            else if(gamepad2.a) { // slide down
+                slideMotor.setPower(-1);
+            }
+            else
+                slideMotor.setPower(0);
+
+            telemetry.addData("arm position: ", armMotor.getCurrentPosition());
+            telemetry.update();
         }
     }
 }
