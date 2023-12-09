@@ -104,16 +104,6 @@ public class RedLeft_Ideal extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .waitSeconds(0.5)
                 .turn(Math.toRadians(100))
-
-//                .waitSeconds(.05)
-//                .turn(Math.toRadians(-12))
-//                .waitSeconds(.05)
-//                .strafeRight(33,
-//                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-//                )
-//                .waitSeconds(.05)
-//                .turn(Math.toRadians(103))
                 .build();
 
 //spikeLeftPark
@@ -236,7 +226,7 @@ public class RedLeft_Ideal extends LinearOpMode {
 
         //define spikeZone based on x_pos
         //The HuskyLens device screen is 320 x 240 pixels, with center at position (160, 120).
-        if (x_pos < 107) {
+        if (x_pos > 0 && x_pos < 107) {
             spikeZone = "left";
             telemetry.addData("spikeZone: ", spikeZone);
             telemetry.update();
@@ -281,20 +271,6 @@ public class RedLeft_Ideal extends LinearOpMode {
             sleep(1500);
             wristServo.setPosition(1);
             sleep(2000);
-
-//            grabberServo.setPosition(0.2);
-//
-//            while(armMotor.getCurrentPosition() >= -4500) {
-//                armMotor.setPower(-0.5);
-//                telemetry.addData("position: ", armMotor.getCurrentPosition());
-//                telemetry.update();
-//            }
-//            armMotor.setPower(0);
-
-//some drive code
-
-//            grabberServo.setPosition(0.39);
-//            wristServo.setPosition(.3);
         }
 
         //if nothing is detected go to the center spike
@@ -302,8 +278,15 @@ public class RedLeft_Ideal extends LinearOpMode {
             spikeZone = "center";
             telemetry.addData("spikeZone: ", spikeZone);
             telemetry.update();
-            //run trajectoryCenter
 
+            //run trajectoryCenter
+            drive.followTrajectorySequence(spikeCenter);
+            drive.followTrajectorySequence(spikeCenterPark);
+
+            wristServo.setPosition(0.5);
+            sleep(1500);
+            wristServo.setPosition(1);
+            sleep(2000);
         }
         //end color detect
 
