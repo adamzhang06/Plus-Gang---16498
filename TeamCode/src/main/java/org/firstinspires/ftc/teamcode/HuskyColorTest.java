@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "HuskyColorTest", group = "HuskyTest")
+@Autonomous(name = "HuskyColorTest")
 public class HuskyColorTest extends LinearOpMode {
 
     // huskylens constants

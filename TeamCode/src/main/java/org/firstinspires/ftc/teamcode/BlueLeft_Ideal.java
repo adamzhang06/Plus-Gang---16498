@@ -173,14 +173,14 @@ public class BlueLeft_Ideal extends LinearOpMode {
             //run trajectoryLeft
             drive.followTrajectorySequence(spikeLeft);
             grabberServo.setPosition(0.2);
-            while(armMotor.getCurrentPosition() >= -4700) {
+            while(armMotor.getCurrentPosition() >= -4500) {
                 armMotor.setPower(-0.5);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
             }
             armMotor.setPower(0);
             sleep(3000);
-            grabberServo.setPosition(0.5);
+            grabberServo.setPosition(0.39);
             wristServo.setPosition(.2);
         }
 
