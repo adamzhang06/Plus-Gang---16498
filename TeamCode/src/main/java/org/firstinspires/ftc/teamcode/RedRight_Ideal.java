@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "RedRight_Ideal", group = "RedRight")
+@Autonomous(name = "RedRight_Ideal", group = "4RedRight")
 public class RedRight_Ideal extends LinearOpMode {
     // initialize motors
     private DcMotor backLeft;
