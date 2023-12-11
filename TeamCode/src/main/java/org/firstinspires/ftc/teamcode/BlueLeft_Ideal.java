@@ -129,7 +129,7 @@ public class BlueLeft_Ideal extends LinearOpMode {
 //spikeCenter
         TrajectorySequence spikeCenter = drive.trajectorySequenceBuilder()
                 .lineTo(
-                        new Vector2d(34, 0),
+                        new Vector2d(31.5, 0),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
