@@ -22,8 +22,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "BlueLeft_Ideal", group = "1BlueLeft")
-public class BlueLeft_Ideal extends LinearOpMode {
+@Autonomous(name = "BlueLeft_Park", group = "1BlueLeft")
+public class BlueLeft_Park extends LinearOpMode {
     // initialize motors
     private DcMotor backLeft;
     private DcMotor frontLeft;
@@ -90,46 +90,30 @@ public class BlueLeft_Ideal extends LinearOpMode {
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(.5)
+                .waitSeconds(.05)
                 .back(9,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(.05)
-                .turn(Math.toRadians(-12))
-                .waitSeconds(.05)
-                .strafeLeft(33,
+                .build();
+
+//spikeLeftPark
+        TrajectorySequence spikeLeftPark = drive.trajectorySequenceBuilder()
+                .waitSeconds(0.5)
+                .lineTo(new Vector2d(-17,35),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(.05)
-                .turn(Math.toRadians(-110))
-                .build();
-
-//spikeLeftPixelIn
-        TrajectorySequence spikeLeftPixelIn = drive.trajectorySequenceBuilder()
-                .waitSeconds(0.5)
-                .forward(13,
+                .strafeLeft(30,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
-//spikeLeftPixelOut
-        TrajectorySequence spikeLeftPixelOut = drive.trajectorySequenceBuilder()
-                .waitSeconds(0.5)
-                .back(5,
-                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .strafeLeft(20,
-                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .build();
 
 //spikeCenter
         TrajectorySequence spikeCenter = drive.trajectorySequenceBuilder()
                 .lineTo(
-                        new Vector2d(31.5, 0),
+                        new Vector2d(34, 0),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -159,6 +143,7 @@ public class BlueLeft_Ideal extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
 
+
 //spikeRight
         TrajectorySequence spikeRight = drive.trajectorySequenceBuilder()
                 .forward(25,
@@ -171,7 +156,6 @@ public class BlueLeft_Ideal extends LinearOpMode {
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
-
 
 //spikeRightPark
         TrajectorySequence spikeRightPark = drive.trajectorySequenceBuilder()
@@ -186,7 +170,6 @@ public class BlueLeft_Ideal extends LinearOpMode {
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .build();
-
 
         wristServo.setPosition(1);
         sleep(500);
@@ -228,7 +211,6 @@ public class BlueLeft_Ideal extends LinearOpMode {
 
         //define spikeZone based on x_pos
         //The HuskyLens device screen is 320 x 240 pixels, with center at position (160, 120).
-        //TODO only one that drops cone is left
         if (x_pos > 0 && x_pos < 107) {
             spikeZone = "left";
             telemetry.addData("spikeZone: ", spikeZone);
@@ -236,21 +218,12 @@ public class BlueLeft_Ideal extends LinearOpMode {
 
             //run trajectoryLeft
             drive.followTrajectorySequence(spikeLeft);
+            drive.followTrajectorySequence(spikeLeftPark);
 
-            grabberServo.setPosition(0.2);
-
-            while(armMotor.getCurrentPosition() >= -4500) {
-                armMotor.setPower(-0.5);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-
-            drive.followTrajectorySequence(spikeLeftPixelIn);
-
-            grabberServo.setPosition(0.5);
-
-            drive.followTrajectorySequence(spikeLeftPixelOut);
+            wristServo.setPosition(0.5);
+            sleep(1500);
+            wristServo.setPosition(1);
+            sleep(2000);
 
         }
 
@@ -283,7 +256,6 @@ public class BlueLeft_Ideal extends LinearOpMode {
             sleep(1500);
             wristServo.setPosition(1);
             sleep(2000);
-
         }
 
         //if nothing is detected go to the center spike
@@ -300,7 +272,6 @@ public class BlueLeft_Ideal extends LinearOpMode {
             sleep(1500);
             wristServo.setPosition(1);
             sleep(2000);
-
         }
         //end color detect
 

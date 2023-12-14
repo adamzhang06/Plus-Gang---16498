@@ -137,9 +137,9 @@ public class TeleOpTest extends LinearOpMode {
             backRight.setPower(backRightPower / s);
 
             // winch
-            if(gamepad1.dpad_down) // winch down
+            if(gamepad2.dpad_down) // winch down
                 winchMotor.setPower(1);
-            else if(gamepad1.dpad_up) // winch up
+            else if(gamepad2.dpad_up) // winch up
                 winchMotor.setPower(-1);
             else
                 winchMotor.setPower(0);
@@ -189,7 +189,7 @@ public class TeleOpTest extends LinearOpMode {
 
             // arm
             if(gamepad2.left_trigger != 0) { // arm up
-                armMotor.setPower(-gamepad2.left_trigger);
+                armMotor.setPower(gamepad2.left_trigger);
                 telemetry.addData("left trigger: ", -gamepad2.left_trigger);
                 telemetry.update();
             }
@@ -197,7 +197,7 @@ public class TeleOpTest extends LinearOpMode {
                 armMotor.setPower(0);
 
             if(gamepad2.right_trigger != 0) { // arm down
-                armMotor.setPower(gamepad2.right_trigger);
+                armMotor.setPower(-gamepad2.right_trigger);
                 telemetry.addData("right trigger: ", gamepad2.right_trigger);
                 telemetry.update();
             }
