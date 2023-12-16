@@ -55,8 +55,8 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
  */
 @Config
 public class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(3, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0.025, 0, 0);
 
     public static double LATERAL_MULTIPLIER = 1.40626203;
 
@@ -100,10 +100,15 @@ public class SampleMecanumDrive extends MecanumDrive {
 //                DriveConstants.LOGO_FACING_DIR, DriveConstants.USB_FACING_DIR));
 //        imu.initialize(parameters);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeft");
-        leftRear = hardwareMap.get(DcMotorEx.class, "backLeft");
-        rightRear = hardwareMap.get(DcMotorEx.class, "backRight");
-        rightFront = hardwareMap.get(DcMotorEx.class, "frontRight ");
+//        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeft");
+//        leftRear = hardwareMap.get(DcMotorEx.class, "backLeft");
+//        rightRear = hardwareMap.get(DcMotorEx.class, "backRight");
+//        rightFront = hardwareMap.get(DcMotorEx.class, "frontRight ");
+
+        leftFront = hardwareMap.get(DcMotorEx.class, "backRight");
+        leftRear = hardwareMap.get(DcMotorEx.class, "frontRight");
+        rightRear = hardwareMap.get(DcMotorEx.class, "frontLeft");
+        rightFront = hardwareMap.get(DcMotorEx.class, "backLeft");
 
         leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftRear.setDirection(DcMotorSimple.Direction.FORWARD);
