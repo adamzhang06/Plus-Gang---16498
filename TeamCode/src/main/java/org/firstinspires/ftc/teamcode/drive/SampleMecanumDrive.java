@@ -161,7 +161,15 @@ public class SampleMecanumDrive extends MecanumDrive {
     }
 
     public TrajectorySequenceBuilder trajectorySequenceBuilder() {
-        Pose2d startPose = new Pose2d(0, 0, 0); //TODO this may be wrong
+        Pose2d startPose = new Pose2d(0, 0, 0);
+        return new TrajectorySequenceBuilder(
+                startPose,
+                VEL_CONSTRAINT, ACCEL_CONSTRAINT,
+                MAX_ANG_VEL, MAX_ANG_ACCEL
+        );
+    }
+
+    public TrajectorySequenceBuilder trajectorySequenceBuilder(Pose2d startPose) { // TODO we added this
         return new TrajectorySequenceBuilder(
                 startPose,
                 VEL_CONSTRAINT, ACCEL_CONSTRAINT,
