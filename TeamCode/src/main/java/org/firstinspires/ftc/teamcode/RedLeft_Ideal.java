@@ -77,6 +77,7 @@ public class RedLeft_Ideal extends LinearOpMode {
         //define trajectories
 
         int speed = 20; // inches per second
+        int strafeLeftspeed = 15;
 
         Pose2d startPose = new Pose2d(0,0,0);
 
@@ -85,106 +86,221 @@ public class RedLeft_Ideal extends LinearOpMode {
 //spikeLeft
         TrajectorySequence spikeLeft = drive.trajectorySequenceBuilder()
                 .splineToConstantHeading(
-                        new Vector2d(32, 30), Math.toRadians(30),
+                        new Vector2d(21.5, 10.5), 0,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .waitSeconds(.05)
-                .back(9,
+                .back(3,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(0.5)
-                .strafeRight(21,
+                .waitSeconds(.05)
+                .strafeRight(
+                        10.5,
+                        SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .lineToConstantHeading(
+                        new Vector2d(54, 0),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .forward(37,
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .lineToLinearHeading(
+                        new Pose2d(48, -60, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .turn(Math.toRadians(100))
-                .build();
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .lineToLinearHeading(
+                        new Pose2d(32.7, -82, Math.toRadians(-88)),
+                        SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
 
-//spikeLeftPark
-        TrajectorySequence spikeLeftPark = drive.trajectorySequenceBuilder()
-                .waitSeconds(0.5)
-                .forward(94,
+                .waitSeconds(.05)
+                .addDisplacementMarker(() -> {
+                    grabberServo.setPosition(0.2);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                    sleep(500);
+
+                    grabberServo.setPosition(0.5);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() <= -1000) {
+                        armMotor.setPower(0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                })
+
+                .waitSeconds(.05)
+                .back(2,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .turn(Math.toRadians(190))
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .strafeLeft(18,
+                        SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
                 .build();
 
 //spikeCenter
         TrajectorySequence spikeCenter = drive.trajectorySequenceBuilder()
-                .lineTo(
-                        new Vector2d(32, 0),
+                .forward(27.5,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(0.5)
-                .back(9,
+                .waitSeconds(.05)
+                .back(6.5,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(0.5)
-                .strafeLeft(22,
+                .waitSeconds(.05)
+                .strafeLeft(12,
+                        SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .lineToConstantHeading(
+                        new Vector2d(54, 12),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .forward(34,
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .lineToLinearHeading(
+                        new Pose2d(48, -60, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .turn(Math.toRadians(95))
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .lineToLinearHeading(
+                        new Pose2d(29, -82.5, Math.toRadians(-90)),
+                        SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
 
-                .build();
+                .waitSeconds(.05)
+                .addDisplacementMarker(() -> {
+                    grabberServo.setPosition(0.2);
+                    sleep(500);
 
-//spikeCenterPark
-        TrajectorySequence spikeCenterPark = drive.trajectorySequenceBuilder()
-                .waitSeconds(0.5)
-                .forward(107,
+                    while(armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                    sleep(500);
+
+                    grabberServo.setPosition(0.5);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() <= -1000) {
+                        armMotor.setPower(0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                })
+
+                .waitSeconds(.05)
+                .back(2,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .turn(Math.toRadians(190))
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .strafeLeft(24,
+                        SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
                 .build();
 
 
 //spikeRight
         TrajectorySequence spikeRight = drive.trajectorySequenceBuilder()
-                .forward(25,
+                .lineToLinearHeading(
+                        new Pose2d(19, 5, Math.toRadians(-60)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
                 .waitSeconds(.05)
-                .turn(Math.toRadians(65))
-                .waitSeconds(0.5)
-                .forward(8,
+                .forward(9,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .back(8,
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .back(9,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .turn(Math.toRadians(-68))
-                .waitSeconds(0.5)
-                .forward(31,
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .lineToLinearHeading(
+                        new Pose2d(48, 0, Math.toRadians(-90)),
+                        SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                //TODO may need to go further out
+                .waitSeconds(.05)
+                .lineToLinearHeading(
+                        new Pose2d(48, -60, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .turn(Math.toRadians(94))
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .lineToLinearHeading(
+                        new Pose2d(19.5, -82, Math.toRadians(-90)),
+                        SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+
+                .waitSeconds(.05)
+                .addDisplacementMarker(() -> {
+                    grabberServo.setPosition(0.2);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                    sleep(500);
+
+                    grabberServo.setPosition(0.5);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() <= -1000) {
+                        armMotor.setPower(0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                })
+
+                .waitSeconds(.05)
+                .back(2,
+                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(.05)
+                .strafeLeft(30,
+                        SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
                 .build();
 
-//spikeRightPark
-        TrajectorySequence spikeRightPark = drive.trajectorySequenceBuilder()
-                .waitSeconds(0.5)
-                .forward(96,
-                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .waitSeconds(0.5)
-                .turn(Math.toRadians(190))
-                .build();
 
         wristServo.setPosition(1);
         sleep(500);
@@ -196,33 +312,32 @@ public class RedLeft_Ideal extends LinearOpMode {
 
         //start color detect (algorithm defined earlier)
         //define x_pos
-        int x_pos = -1;
+        int x_pos = 250; //TODO change
 
-        while (opModeIsActive()) {
-
-            mClock.reset();
-
-            //Get label start
-            while (x_pos == -1 && mClock.seconds() < 5) { // mClock.seconds
-                telemetry.addData("mClock: ", mClock.seconds());
-                telemetry.update();
-                HuskyLens.Block[] blocks = huskyLens.blocks();
-
-                if (blocks.length > 0) {
-                    telemetry.addData("Block count", blocks.length);
-
-                    for (int i = 0; i < blocks.length; i++) {
-
-                        if (blocks[i].id == 2 && blocks[i].width > 15) {
-                            x_pos = blocks[i].x;
-                            telemetry.addData("x_pos: ", x_pos);
-                        } //end assigning x_pos
-                    } //end getting block id
-                } // end getting blocks
-            } //end whileTimer
-
-            break; //break whileOpMode to start autonomous
-        } //end whileOpMode ^
+//        while (opModeIsActive()) {
+//
+//            mClock.reset();
+//
+//            //Get label start
+//            while (x_pos == -1 && mClock.seconds() < 5) { // mClock.seconds
+//                telemetry.addData("mClock: ", mClock.seconds());
+//                telemetry.update();
+//                HuskyLens.Block[] blocks = huskyLens.blocks();
+//
+//                if (blocks.length > 0) {
+//                    telemetry.addData("Block count", blocks.length);
+//
+//                    for (int i = 0; i < blocks.length; i++) {
+//
+//                        if (blocks[i].id == 2 && blocks[i].width > 15) {
+//                            x_pos = blocks[i].x;
+//                            telemetry.addData("x_pos: ", x_pos);
+//                        } //end assigning x_pos
+//                    } //end getting block id
+//                } // end getting blocks
+//            } //end whileTimer
+//            break; //break whileOpMode to start autonomous
+//        } //end whileOpMode ^
 
         //define spikeZone based on x_pos
         //The HuskyLens device screen is 320 x 240 pixels, with center at position (160, 120).
@@ -233,13 +348,6 @@ public class RedLeft_Ideal extends LinearOpMode {
 
             //run trajectoryLeft
             drive.followTrajectorySequence(spikeLeft);
-            drive.followTrajectorySequence(spikeLeftPark);
-
-            wristServo.setPosition(0.5);
-            sleep(1500);
-            wristServo.setPosition(1);
-            sleep(2000);
-
         }
 
         if (x_pos >= 107 && x_pos <= 213) {
@@ -249,13 +357,6 @@ public class RedLeft_Ideal extends LinearOpMode {
 
             //run trajectoryCenter
             drive.followTrajectorySequence(spikeCenter);
-            drive.followTrajectorySequence(spikeCenterPark);
-
-            wristServo.setPosition(0.5);
-            sleep(1500);
-            wristServo.setPosition(1);
-            sleep(2000);
-
         }
 
         if (x_pos > 213) {
@@ -265,12 +366,6 @@ public class RedLeft_Ideal extends LinearOpMode {
 
             //run trajectoryRight
             drive.followTrajectorySequence(spikeRight);
-            drive.followTrajectorySequence(spikeRightPark);
-
-            wristServo.setPosition(0.5);
-            sleep(1500);
-            wristServo.setPosition(1);
-            sleep(2000);
         }
 
         //if nothing is detected go to the center spike
@@ -281,12 +376,6 @@ public class RedLeft_Ideal extends LinearOpMode {
 
             //run trajectoryCenter
             drive.followTrajectorySequence(spikeCenter);
-            drive.followTrajectorySequence(spikeCenterPark);
-
-            wristServo.setPosition(0.5);
-            sleep(1500);
-            wristServo.setPosition(1);
-            sleep(2000);
         }
         //end color detect
 

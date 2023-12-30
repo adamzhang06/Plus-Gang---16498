@@ -92,39 +92,42 @@ public class BlueLeft_Ideal extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .waitSeconds(.05)
-                .back(3,
+                .back(5,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                    new Pose2d(18, 36, Math.toRadians(90)),
+                    new Pose2d(18, 33, Math.toRadians(90)),
                     SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(.05)
 
+                .waitSeconds(.05)
                 .addDisplacementMarker(() -> {
                     grabberServo.setPosition(0.2);
+                    sleep(500);
 
-                    while(armMotor.getCurrentPosition() >= -4500) {
-                       armMotor.setPower(-0.5);
-                       telemetry.addData("position: ", armMotor.getCurrentPosition());
-                       telemetry.update();
+                    while(armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
                     }
                     armMotor.setPower(0);
+                    sleep(500);
 
                     grabberServo.setPosition(0.5);
+                    sleep(500);
 
-                    while(armMotor.getCurrentPosition() <= 750) {
+                    while(armMotor.getCurrentPosition() <= -1000) {
                         armMotor.setPower(0.5);
                         telemetry.addData("position: ", armMotor.getCurrentPosition());
                         telemetry.update();
                     }
                     armMotor.setPower(0);
                 })
-                .waitSeconds(.05)
 
+                .waitSeconds(.05)
                 .back(2,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
@@ -149,13 +152,35 @@ public class BlueLeft_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(24, 36, Math.toRadians(90)),
+                        new Pose2d(25.5, 33, Math.toRadians(87)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(.05)
 
-                //TODO arm movement
+                //TODO arm is bringing the pixel back up and it is bouncing out of position
+                .waitSeconds(.05)
+                .addDisplacementMarker(() -> {
+                    grabberServo.setPosition(0.2);
+                    sleep(500);
+
+                    while (armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                    sleep(500);
+
+                    grabberServo.setPosition(0.5);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() <= -1000) {
+                        armMotor.setPower(0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                })
 
                 .waitSeconds(.05)
                 .back(2,
@@ -188,13 +213,33 @@ public class BlueLeft_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(31.5, 36, Math.toRadians(90)),
+                        new Pose2d(31.5, 33, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .waitSeconds(.05)
+                .addDisplacementMarker(() -> {
+                    grabberServo.setPosition(0.2);
+                    sleep(500);
 
-                //TODO arm movement
+                    while(armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                    sleep(500);
+
+                    grabberServo.setPosition(0.5);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() <= -1000) {
+                        armMotor.setPower(0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                })
 
                 .waitSeconds(.05)
                 .back(2,
