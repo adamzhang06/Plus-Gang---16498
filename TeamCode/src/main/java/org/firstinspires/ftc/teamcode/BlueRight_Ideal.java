@@ -113,15 +113,36 @@ public class BlueRight_Ideal extends LinearOpMode {
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(0.05)
+                .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(19.5, 84, Math.toRadians(90)),
+                        new Pose2d(19.5, 82, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(.05)
 
-                //TODO arm movement
+                .waitSeconds(.05)
+                .addDisplacementMarker(() -> {
+                    grabberServo.setPosition(0.2);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                    sleep(500);
+
+                    grabberServo.setPosition(0.5);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() <= -1000) {
+                        armMotor.setPower(0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                })
 
                 .waitSeconds(.05)
                 .back(2,
@@ -165,13 +186,34 @@ public class BlueRight_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(24, 84, Math.toRadians(90)),
+                        new Pose2d(29, 82.5, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(.05)
 
-                //TODO arm movement
+                .waitSeconds(.05)
+                .addDisplacementMarker(() -> {
+                    grabberServo.setPosition(0.2);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                    sleep(500);
+
+                    grabberServo.setPosition(0.5);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() <= -1000) {
+                        armMotor.setPower(0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                })
 
                 .waitSeconds(.05)
                 .back(2,
@@ -217,13 +259,34 @@ public class BlueRight_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(31.5, 84, Math.toRadians(90)),
+                        new Pose2d(32.7, 82, Math.toRadians(88)),
                         SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .waitSeconds(.05)
 
-                //TODO arm movement
+                .waitSeconds(.05)
+                .addDisplacementMarker(() -> {
+                    grabberServo.setPosition(0.2);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() >= -4750) {
+                        armMotor.setPower(-0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                    sleep(500);
+
+                    grabberServo.setPosition(0.5);
+                    sleep(500);
+
+                    while(armMotor.getCurrentPosition() <= -1000) {
+                        armMotor.setPower(0.5);
+                        telemetry.addData("position: ", armMotor.getCurrentPosition());
+                        telemetry.update();
+                    }
+                    armMotor.setPower(0);
+                })
 
                 .waitSeconds(.05)
                 .back(2,
@@ -249,31 +312,31 @@ public class BlueRight_Ideal extends LinearOpMode {
         //define x_pos
         int x_pos = -1 ;
 
-//        while (opModeIsActive()) {
-//
-//            mClock.reset();
-//
-//            //Get label start
-//            while (x_pos == -1 && mClock.seconds() < 5) { // mClock.seconds
-//                telemetry.addData("mClock: ", mClock.seconds());
-//                telemetry.update();
-//                HuskyLens.Block[] blocks = huskyLens.blocks();
-//
-//                if (blocks.length > 0) {
-//                    telemetry.addData("Block count", blocks.length);
-//
-//                    for (int i = 0; i < blocks.length; i++) {
-//
-//                        if (blocks[i].id == 1 && blocks[i].width > 15) {
-//                            x_pos = blocks[i].x;
-//                            telemetry.addData("x_pos: ", x_pos);
-//                        } //end assigning x_pos
-//                    } //end getting block id
-//                } // end getting blocks
-//            } //end whileTimer
-//
-//            break; //break whileOpMode to start autonomous
-//        } //end whileOpMode ^
+        while (opModeIsActive()) {
+
+            mClock.reset();
+
+            //Get label start
+            while (x_pos == -1 && mClock.seconds() < 5) { // mClock.seconds
+                telemetry.addData("mClock: ", mClock.seconds());
+                telemetry.update();
+                HuskyLens.Block[] blocks = huskyLens.blocks();
+
+                if (blocks.length > 0) {
+                    telemetry.addData("Block count", blocks.length);
+
+                    for (int i = 0; i < blocks.length; i++) {
+
+                        if (blocks[i].id == 1 && blocks[i].width > 15) {
+                            x_pos = blocks[i].x;
+                            telemetry.addData("x_pos: ", x_pos);
+                        } //end assigning x_pos
+                    } //end getting block id
+                } // end getting blocks
+            } //end whileTimer
+
+            break; //break whileOpMode to start autonomous
+        } //end whileOpMode ^
 
         //define spikeZone based on x_pos
         //The HuskyLens device screen is 320 x 240 pixels, with center at position (160, 120).
