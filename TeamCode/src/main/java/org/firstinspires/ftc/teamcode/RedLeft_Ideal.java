@@ -313,6 +313,7 @@ public class RedLeft_Ideal extends LinearOpMode {
         //start color detect (algorithm defined earlier)
         //define x_pos
         int x_pos = -1;
+        //TODO delete this TODO later
 
         while (opModeIsActive()) {
 
