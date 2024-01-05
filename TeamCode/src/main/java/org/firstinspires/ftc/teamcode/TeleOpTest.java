@@ -137,9 +137,9 @@ public class TeleOpTest extends LinearOpMode {
             backRight.setPower(backRightPower / s);
 
             // winch
-            if(gamepad2.dpad_down) // winch down
+            if(gamepad1.dpad_down) // winch down
                 winchMotor.setPower(1);
-            else if(gamepad2.dpad_up) // winch up
+            else if(gamepad1.dpad_up) // winch up
                 winchMotor.setPower(-1);
             else
                 winchMotor.setPower(0);
@@ -206,14 +206,14 @@ public class TeleOpTest extends LinearOpMode {
 
 
             // grabber
-            if(gamepad2.left_bumper) { // pinch grabber
+            if(gamepad2.right_bumper) { // pinch grabber
 //                grabberPos -= 0.1;
                 grabberServo.setPosition(0.39);
 //                telemetry.addData("grabber position: ", grabberPos);
 //                telemetry.update();
             }
 
-            if(gamepad2.right_bumper) { // release grabber
+            if(gamepad2.left_bumper) { // release grabber
 //                grabberPos += 0.1;
                 grabberServo.setPosition(0.5);
 //                telemetry.addData("grabber position: ", grabberPos);
@@ -230,11 +230,21 @@ public class TeleOpTest extends LinearOpMode {
                 wristServo.setPosition(wristPos);
             }
 
+            if(gamepad2.x) {
+                wristPos = 1;
+                wristServo.setPosition(wristPos);
+            }
+
+            if(gamepad2.b) {
+                wristPos = 0;
+                wristServo.setPosition(wristPos);
+            }
+
             // slide
-            if(gamepad2.y) { // slide up
+            if(gamepad2.dpad_up) { // slide up
                 slideMotor.setPower(1);
             }
-            else if(gamepad2.a) { // slide down
+            else if(gamepad2.dpad_down) { // slide down
                 slideMotor.setPower(-1);
             }
             else
