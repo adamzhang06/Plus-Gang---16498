@@ -213,7 +213,7 @@ public class RedRight_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(18, -33, Math.toRadians(-90)),
+                        new Pose2d(18, -33, Math.toRadians(-93)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -281,7 +281,8 @@ public class RedRight_Ideal extends LinearOpMode {
 
                     for (int i = 0; i < blocks.length; i++) {
 
-                        if (blocks[i].id == 2 && blocks[i].width > 15) {
+                        if (blocks[i].id == 1 && blocks[i].width > 15) {
+                            //TODO id #
                             x_pos = blocks[i].x;
                             telemetry.addData("x_pos: ", x_pos);
                         } //end assigning x_pos

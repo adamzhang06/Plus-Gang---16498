@@ -327,7 +327,8 @@ public class BlueRight_Ideal extends LinearOpMode {
 
                     for (int i = 0; i < blocks.length; i++) {
 
-                        if (blocks[i].id == 1 && blocks[i].width > 15) {
+                        if (blocks[i].id == 2 && blocks[i].width > 15) {
+                            //TODO id #
                             x_pos = blocks[i].x;
                             telemetry.addData("x_pos: ", x_pos);
                         } //end assigning x_pos
