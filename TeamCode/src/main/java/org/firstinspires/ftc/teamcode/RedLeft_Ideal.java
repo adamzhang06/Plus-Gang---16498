@@ -115,7 +115,8 @@ public class RedLeft_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(32.7, -82, Math.toRadians(-88)),
+                        //x = 32.7, y = -82, -88
+                        new Pose2d(30, -82, Math.toRadians(-88)),
                         SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -247,20 +248,20 @@ public class RedLeft_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(48, 0, Math.toRadians(-90)),
+                        new Pose2d(54, 0, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 //TODO may need to go further out
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(48, -60, Math.toRadians(-90)),
+                        new Pose2d(48, -65, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(19.5, -82, Math.toRadians(-90)),
+                        new Pose2d(16, -80, Math.toRadians(-93)),
                         SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -372,12 +373,13 @@ public class RedLeft_Ideal extends LinearOpMode {
 
         //if nothing is detected go to the center spike
         if (x_pos == -1) {
-            spikeZone = "center";
+            //TODO changed
+            spikeZone = "right";
             telemetry.addData("spikeZone: ", spikeZone);
             telemetry.update();
 
             //run trajectoryCenter
-            drive.followTrajectorySequence(spikeCenter);
+            drive.followTrajectorySequence(spikeRight);
         }
         //end color detect
 

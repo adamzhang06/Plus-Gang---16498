@@ -83,7 +83,7 @@ public class BlueLeft_Ideal extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
-
+        // TODO change forward and back to lines so it uses the PID
 //spikeLeft
         TrajectorySequence spikeLeft = drive.trajectorySequenceBuilder()
                 .splineToConstantHeading(
@@ -98,7 +98,7 @@ public class BlueLeft_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                    new Pose2d(18, 33, Math.toRadians(90)),
+                    new Pose2d(17.5, 33, Math.toRadians(90)),
                     SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                     SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -323,12 +323,13 @@ public class BlueLeft_Ideal extends LinearOpMode {
 
         //if nothing is detected go to the center spike
         if (x_pos == -1) {
-            spikeZone = "center";
+            //TODO changed to left for Marquette
+            spikeZone = "left";
             telemetry.addData("spikeZone: ", spikeZone);
             telemetry.update();
 
             //run trajectoryCenter
-            drive.followTrajectorySequence(spikeCenter);
+            drive.followTrajectorySequence(spikeLeft);
         }
         //end color detect
 

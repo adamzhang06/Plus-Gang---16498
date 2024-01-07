@@ -102,20 +102,20 @@ public class BlueRight_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(48, 0, Math.toRadians(90)),
+                        new Pose2d(54, 0, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 //TODO may need to go further out
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(48, 60, Math.toRadians(90)),
+                        new Pose2d(48, 65, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(19.5, 82, Math.toRadians(90)),
+                        new Pose2d(19.5, 80.5, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(strafeLeftspeed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -370,12 +370,13 @@ public class BlueRight_Ideal extends LinearOpMode {
 
         //if nothing is detected go to the center spike
         if (x_pos == -1) {
-            spikeZone = "center";
+            //TODO changed
+            spikeZone = "left";
             telemetry.addData("spikeZone: ", spikeZone);
             telemetry.update();
 
             //run trajectoryCenter
-            drive.followTrajectorySequence(spikeCenter);
+            drive.followTrajectorySequence(spikeLeft);
         }
         //end color detect
 

@@ -102,20 +102,36 @@ public class RoadrunnerTeleOpTest extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            boolean useRoadrunner = true;
 
-            drive.setWeightedDrivePower(
+            if(gamepad1.dpad_left)
+                useRoadrunner = true;
+            else if (gamepad1.dpad_right)
+                useRoadrunner = false;
+
+            if(useRoadrunner) {
+                drive.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y / s * direction,
                             -gamepad1.left_stick_x / s * direction,
                             -gamepad1.right_stick_x / s / 1.2
                     )
-            );
+                );
 
-            DriveConstants.kV = 1;
-            DriveConstants.kA = 0;
-            DriveConstants.kStatic = 0;
+                DriveConstants.kV = 1;
+                DriveConstants.kA = 0;
+                DriveConstants.kStatic = 0;
 
-            drive.update();
+                telemetry.addData("kv: ", DriveConstants.kV);
+                telemetry.addData("kA: ", DriveConstants.kA);
+                telemetry.addData("kStatic: ", DriveConstants.kStatic);
+                telemetry.update();
+
+
+                drive.update();
+            }
+
+//
 
             if (gamepad1.left_bumper)
                 s = 4;

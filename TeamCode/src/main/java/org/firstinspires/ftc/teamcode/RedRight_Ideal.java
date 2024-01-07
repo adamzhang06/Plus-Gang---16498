@@ -213,7 +213,7 @@ public class RedRight_Ideal extends LinearOpMode {
                 )
                 .waitSeconds(.05)
                 .lineToLinearHeading(
-                        new Pose2d(18, -33, Math.toRadians(-93)),
+                        new Pose2d(18, -31.5, Math.toRadians(-93)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -243,7 +243,7 @@ public class RedRight_Ideal extends LinearOpMode {
                 })
 
                 .waitSeconds(.05)
-                .back(2,
+                .back(1,
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
