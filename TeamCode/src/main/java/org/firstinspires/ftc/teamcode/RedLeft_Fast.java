@@ -78,7 +78,7 @@ public class RedLeft_Fast extends LinearOpMode {
 
         int speed = 25; // inches per second
         int slow = 20;
-        int armHeight = -5150;
+        int armHeight = -5000; //TODO used to be -5150
 
         Pose2d startPose = new Pose2d(0,0,0);
 
@@ -112,6 +112,7 @@ public class RedLeft_Fast extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .waitSeconds(4) //TODO calibrate time
+                //TODO too far left
                 .lineToLinearHeading(
                         new Pose2d(34, -80.5, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -155,7 +156,7 @@ public class RedLeft_Fast extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(50, 12, 0),
+                        new Pose2d(54, 12, 0),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -166,7 +167,7 @@ public class RedLeft_Fast extends LinearOpMode {
                 )
                 .waitSeconds(4) //TODO calibrate time
                 .lineToLinearHeading(
-                        new Pose2d(28.9, -80.9, Math.toRadians(-90)),
+                        new Pose2d(28.6, -80.9, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -206,7 +207,7 @@ public class RedLeft_Fast extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(50, 0, Math.toRadians(-90)),
+                        new Pose2d(54, 0, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -219,6 +220,11 @@ public class RedLeft_Fast extends LinearOpMode {
                 .lineToLinearHeading(
                         new Pose2d(19.5, -80.5, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .lineToLinearHeading(
+                        new Pose2d(17, -80.5, Math.toRadians(-90)),
+                        SampleMecanumDrive.getVelocityConstraint(15, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();

@@ -78,7 +78,7 @@ public class BlueRight_Fast extends LinearOpMode {
 
         int speed = 25; // inches per second
         int slow = 20;
-        int armHeight = -5150;
+        int armHeight = -5000; //TODO used to be -5150
 
         Pose2d startPose = new Pose2d(0,0,0);
 
@@ -100,7 +100,7 @@ public class BlueRight_Fast extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(50, 0, Math.toRadians(90)),
+                        new Pose2d(54, 0, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -152,7 +152,7 @@ public class BlueRight_Fast extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(50, -12, 0),
+                        new Pose2d(54, -12, 0),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
