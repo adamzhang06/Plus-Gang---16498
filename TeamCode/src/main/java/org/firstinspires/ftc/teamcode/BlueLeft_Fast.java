@@ -109,7 +109,7 @@ public class BlueLeft_Fast extends LinearOpMode {
 
 //spikeLeftBackUp
         TrajectorySequence spikeLeftBackUp = drive.trajectorySequenceBuilder(spikeLeft.end())
-                .back(2,
+                .back(3,
                         SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -176,7 +176,7 @@ public class BlueLeft_Fast extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(31, 32.5, Math.toRadians(90)),
+                        new Pose2d(32.5, 32.5, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -184,7 +184,7 @@ public class BlueLeft_Fast extends LinearOpMode {
 
 //spikeRightBackUp
         TrajectorySequence spikeRightBackUp = drive.trajectorySequenceBuilder(spikeRight.end())
-                .back(2,
+                .back(3,
                         SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )

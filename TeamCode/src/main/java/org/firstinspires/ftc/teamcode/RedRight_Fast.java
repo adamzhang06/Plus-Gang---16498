@@ -140,12 +140,12 @@ public class RedRight_Fast extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(25, -33, Math.toRadians(-90)),
+                        new Pose2d(25, -32.2, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(28, -33, Math.toRadians(-90)),
+                        new Pose2d(28, -32.2, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
