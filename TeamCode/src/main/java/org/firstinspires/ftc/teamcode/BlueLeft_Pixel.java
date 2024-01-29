@@ -227,7 +227,22 @@ public class BlueLeft_Pixel extends LinearOpMode {
 
         //start color detect (algorithm defined earlier)
         //define x_pos
+
+
+
+
+
+
+
         int x_pos = 150; //TODO change back to -1
+
+
+
+
+
+
+
+
 
         while (opModeIsActive()) {
 
