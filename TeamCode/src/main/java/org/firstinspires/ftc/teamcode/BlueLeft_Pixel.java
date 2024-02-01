@@ -101,7 +101,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(18, 32.5, Math.toRadians(90)),
+                        new Pose2d(18.4, 32.5, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -227,22 +227,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
 
         //start color detect (algorithm defined earlier)
         //define x_pos
-
-
-
-
-
-
-
-        int x_pos = 150; //TODO change back to -1
-
-
-
-
-
-
-
-
+        int x_pos = -1; //TODO change back to -1
 
         while (opModeIsActive()) {
 

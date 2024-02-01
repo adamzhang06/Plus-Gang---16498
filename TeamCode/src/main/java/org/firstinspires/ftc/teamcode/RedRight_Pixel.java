@@ -490,7 +490,6 @@ public class RedRight_Pixel extends LinearOpMode {
         }
 
         //if nothing is detected go to the center spike
-        //TODO changed to left for Marquette
         if (x_pos == -1) {
             spikeZone = "left";
             telemetry.addData("spikeZone: ", spikeZone);
