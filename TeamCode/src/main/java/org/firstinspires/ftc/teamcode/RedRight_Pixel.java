@@ -33,6 +33,7 @@ public class RedRight_Pixel extends LinearOpMode {
     private DcMotor backRight;
 
     private DcMotor armMotor;
+
     private Servo grabberServo;
     private Servo wristServo;
 
@@ -58,6 +59,7 @@ public class RedRight_Pixel extends LinearOpMode {
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //define huskylens
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
@@ -80,7 +82,7 @@ public class RedRight_Pixel extends LinearOpMode {
 
         int speed = 25; // inches per second
         int slow = 20;
-        int armHeight = -5000; //TODO used to be -5150
+        int armHeight = -5025; //TODO used to be -5150
 
         Pose2d startPose = new Pose2d(0,0,0);
 
@@ -104,7 +106,7 @@ public class RedRight_Pixel extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(31, -33, Math.toRadians(-90)),
+                        new Pose2d(30.8, -33.3, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -140,7 +142,7 @@ public class RedRight_Pixel extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(26, -32.2, Math.toRadians(-90)),
+                        new Pose2d(26, -33.3, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -193,7 +195,7 @@ public class RedRight_Pixel extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(17.2, -33, Math.toRadians(-90)),
+                        new Pose2d(17.7, -33.3, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -221,7 +223,7 @@ public class RedRight_Pixel extends LinearOpMode {
 //                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(30, 62.5, Math.toRadians(-90)),
+                        new Pose2d(30.5, 62.5, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -231,7 +233,7 @@ public class RedRight_Pixel extends LinearOpMode {
 //spikeRightPixelPickUp
         TrajectorySequence spikeRightPixelPickUp = drive.trajectorySequenceBuilder(spikeRightPixel.end())
                 .lineToLinearHeading(
-                        new Pose2d(30, 71.5, Math.toRadians(-90)),
+                        new Pose2d(30.5, 71.5, Math.toRadians(-90)),
                         SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -317,8 +319,8 @@ public class RedRight_Pixel extends LinearOpMode {
                 telemetry.update();
             }
             armMotor.setPower(0);
-            sleep(500);
 
+            sleep(250);
             grabberServo.setPosition(0.5);
             sleep(500);
 
@@ -326,7 +328,7 @@ public class RedRight_Pixel extends LinearOpMode {
             drive.followTrajectorySequence(spikeLeftBackUp);
 
             //arm down
-            while(armMotor.getCurrentPosition() <= -750) {
+            while(armMotor.getCurrentPosition() <= -500) {
                 armMotor.setPower(1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
@@ -356,6 +358,7 @@ public class RedRight_Pixel extends LinearOpMode {
             }
             armMotor.setPower(0);
 
+            sleep(250);
             grabberServo.setPosition(0.5);
             sleep(500);
 
@@ -363,7 +366,7 @@ public class RedRight_Pixel extends LinearOpMode {
             drive.followTrajectorySequence(spikeCenterBackUp);
 
             //arm down
-            while(armMotor.getCurrentPosition() <= -750) {
+            while(armMotor.getCurrentPosition() <= -500) {
                 armMotor.setPower(1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
@@ -376,7 +379,7 @@ public class RedRight_Pixel extends LinearOpMode {
             wristServo.setPosition(0);
             sleep(250);
 
-            while(armMotor.getCurrentPosition() >= -450) {
+            while(armMotor.getCurrentPosition() >= -625) {
                 armMotor.setPower(-0.5);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
@@ -431,8 +434,8 @@ public class RedRight_Pixel extends LinearOpMode {
                 telemetry.update();
             }
             armMotor.setPower(0);
-            sleep(250);
 
+            sleep(250);
             grabberServo.setPosition(0.5);
             sleep(250);
 
@@ -440,7 +443,7 @@ public class RedRight_Pixel extends LinearOpMode {
             drive.followTrajectorySequence(spikeRightBackUp);
 
             //arm down
-            while(armMotor.getCurrentPosition() <= -750) {
+            while(armMotor.getCurrentPosition() <= -500) {
                 armMotor.setPower(1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
@@ -453,7 +456,7 @@ public class RedRight_Pixel extends LinearOpMode {
             wristServo.setPosition(0);
             sleep(250);
 
-            while(armMotor.getCurrentPosition() >= -450) {
+            while(armMotor.getCurrentPosition() >= -625) {
                 armMotor.setPower(-1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
@@ -508,8 +511,8 @@ public class RedRight_Pixel extends LinearOpMode {
                 telemetry.update();
             }
             armMotor.setPower(0);
-            sleep(500);
 
+            sleep(250);
             grabberServo.setPosition(0.5);
             sleep(500);
 

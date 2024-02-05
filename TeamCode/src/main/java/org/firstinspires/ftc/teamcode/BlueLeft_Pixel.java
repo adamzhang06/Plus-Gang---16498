@@ -163,7 +163,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
 //spikeCenterPixelPickUp
         TrajectorySequence spikeCenterPixelPickUp = drive.trajectorySequenceBuilder(spikeCenterPixel.end())
                 .lineToLinearHeading(
-                        new Pose2d(21, -71.5, Math.toRadians(90)),
+                        new Pose2d(22, -71.5, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -413,12 +413,12 @@ public class BlueLeft_Pixel extends LinearOpMode {
         //if nothing is detected go to the center spike
         //TODO changed to left for Marquette
         if (x_pos == -1) {
-            spikeZone = "left";
+            spikeZone = "right";
             telemetry.addData("spikeZone: ", spikeZone);
             telemetry.update();
 
-            //run trajectoryCenter
-            drive.followTrajectorySequence(spikeLeft);
+            //run trajectoryRight
+            drive.followTrajectorySequence(spikeRight);
 
             grabberServo.setPosition(0.2);
             sleep(500);
@@ -436,7 +436,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
             sleep(500);
 
             //back up
-            drive.followTrajectorySequence(spikeLeftBackUp);
+            drive.followTrajectorySequence(spikeRightBackUp);
 
             //arm down
             while(armMotor.getCurrentPosition() <= -750) {
@@ -447,7 +447,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
             armMotor.setPower(0);
 
             //park
-            drive.followTrajectorySequence(spikeLeftPark);
+            drive.followTrajectorySequence(spikeRightPark);
         }
         //end color detect
 
