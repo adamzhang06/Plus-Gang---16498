@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -17,15 +17,13 @@ import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-import java.util.Vector;
-
 
 /*
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "BlueLeft_Pixel", group = "1BlueLeft")
-public class BlueLeft_Pixel extends LinearOpMode {
+@Autonomous(name = "BlueLeft_Fast", group = "1BlueLeft")
+public class BlueLeft_Fast extends LinearOpMode {
     // initialize motors
     private DcMotor backLeft;
     private DcMotor frontLeft;
@@ -57,6 +55,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
 
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //define huskylens
@@ -101,7 +100,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(18.4, 32.5, Math.toRadians(90)),
+                        new Pose2d(18, 32.5, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -137,7 +136,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(26, 32.5, Math.toRadians(90)),
+                        new Pose2d(25, 32.5, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -151,30 +150,13 @@ public class BlueLeft_Pixel extends LinearOpMode {
                 )
                 .build();
 
-//spikeCenterPixel
-        TrajectorySequence spikeCenterPixel = drive.trajectorySequenceBuilder(spikeCenterBackUp.end())
-                .lineToLinearHeading(
-                        new Pose2d(21, -60, Math.toRadians(90)),
-                        SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//spikeCenterPark
+        TrajectorySequence spikeCenterPark = drive.trajectorySequenceBuilder(spikeCenterBackUp.end())
+                .lineToConstantHeading(
+                        new Vector2d(4, 32.5),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .build();
-
-//spikeCenterPixelPickUp
-        TrajectorySequence spikeCenterPixelPickUp = drive.trajectorySequenceBuilder(spikeCenterPixel.end())
-                .lineToLinearHeading(
-                        new Pose2d(22, -71.5, Math.toRadians(90)),
-                        SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
-                .build();
-
-//spikeCenterPixelPark
-        TrajectorySequence spikeCenterPixelPark = drive.trajectorySequenceBuilder(spikeCenterPixelPickUp.end())
-                .lineToLinearHeading(
-                        new Pose2d(21, 31, Math.toRadians(90))
-                )
-                .turn(Math.toRadians(180))
                 .build();
 
 //spikeRight
@@ -330,46 +312,8 @@ public class BlueLeft_Pixel extends LinearOpMode {
             }
             armMotor.setPower(0);
 
-            //pixel
-            drive.followTrajectorySequence(spikeCenterPixel);
-
-            wristServo.setPosition(0);
-            sleep(250);
-
-            while(armMotor.getCurrentPosition() >= -450) {
-                armMotor.setPower(-1);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-
-            drive.followTrajectorySequence(spikeCenterPixelPickUp);
-
-            while(armMotor.getCurrentPosition() <= -150) {
-                armMotor.setPower(1);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-            sleep(500);
-
-            grabberServo.setPosition(0.2);
-            sleep(500);
-
-            while(armMotor.getCurrentPosition() >= -400) {
-                armMotor.setPower(-1);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-            sleep(150);
-
-            drive.followTrajectorySequence(spikeCenterPixelPark);
-
-            wristServo.setPosition(0.5);
-            sleep(150);
-
-            grabberServo.setPosition(0.5);
+            //park
+            drive.followTrajectorySequence(spikeCenterPark);
         }
 
         if (x_pos > 213) {
@@ -413,12 +357,12 @@ public class BlueLeft_Pixel extends LinearOpMode {
         //if nothing is detected go to the center spike
         //TODO changed to left for Marquette
         if (x_pos == -1) {
-            spikeZone = "right";
+            spikeZone = "left";
             telemetry.addData("spikeZone: ", spikeZone);
             telemetry.update();
 
-            //run trajectoryRight
-            drive.followTrajectorySequence(spikeRight);
+            //run trajectoryCenter
+            drive.followTrajectorySequence(spikeLeft);
 
             grabberServo.setPosition(0.2);
             sleep(500);
@@ -436,7 +380,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
             sleep(500);
 
             //back up
-            drive.followTrajectorySequence(spikeRightBackUp);
+            drive.followTrajectorySequence(spikeLeftBackUp);
 
             //arm down
             while(armMotor.getCurrentPosition() <= -750) {
@@ -447,7 +391,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
             armMotor.setPower(0);
 
             //park
-            drive.followTrajectorySequence(spikeRightPark);
+            drive.followTrajectorySequence(spikeLeftPark);
         }
         //end color detect
 

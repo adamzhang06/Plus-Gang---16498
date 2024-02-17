@@ -27,21 +27,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.LeagueArchive;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.drive.DriveConstants;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
-@TeleOp(name = "RoadrunnerTeleOpTest", group = "Test")
-
-public class RoadrunnerTeleOpTest extends LinearOpMode {
+@TeleOp(name = "TeleOp", group = "Main")
+@Disabled
+public class TeleOpTest extends LinearOpMode {
     private DcMotor backLeft;
     private DcMotor frontLeft;
     private DcMotor frontRight;
@@ -57,8 +54,6 @@ public class RoadrunnerTeleOpTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         // initialize motors
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
@@ -81,7 +76,6 @@ public class RoadrunnerTeleOpTest extends LinearOpMode {
         double wristPos = 0.1;
 
         double direction = 1;
-        int s = 1;
 
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -102,19 +96,32 @@ public class RoadrunnerTeleOpTest extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            boolean useRoadrunner = true;
 
-                DriveConstants.kV = 1;
-                DriveConstants.kA = 0;
-                DriveConstants.kStatic = 0;
+            // gamepad 1 controls
+            double y = -gamepad1.left_stick_y; // Remember, this is reversed!
+            double x = gamepad1.left_stick_x * 1; // Counteract imperfect strafing
+//
+            double rx = gamepad1.right_stick_x;
+            if(direction == 1) {
+                rx = gamepad1.right_stick_x * -1;
+            }
+            else {
+                rx = gamepad1.right_stick_x;
+            }
 
-                telemetry.addData("kv: ", DriveConstants.kV);
-                telemetry.addData("kA: ", DriveConstants.kA);
-                telemetry.addData("kStatic: ", DriveConstants.kStatic);
-                telemetry.update();
+            if(gamepad1.left_stick_x < 40 && gamepad1.left_stick_x > 60) {
+                x = 50;
+            }
+            if(gamepad1.left_stick_y < 45 && gamepad1.left_stick_y > 55) {
+                y = 50;
+            }
 
-
-                drive.update();
+            int s = 1;
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double frontLeftPower = (y + x + rx) / denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontRightPower = (y - x - rx) / denominator;
+            double backRightPower = (y + x - rx) / denominator;
 
             if (gamepad1.left_bumper)
                 s = 4;
@@ -123,10 +130,16 @@ public class RoadrunnerTeleOpTest extends LinearOpMode {
             else
                 s = 1;
 
+            backLeft.setPower(backLeftPower / s);
+            frontLeft.setPower(frontLeftPower / s);
+
+            frontRight.setPower(frontRightPower / s);
+            backRight.setPower(backRightPower / s);
+
             // winch
-            if(gamepad2.dpad_down) // winch down
+            if(gamepad1.dpad_down) // winch down
                 winchMotor.setPower(1);
-            else if(gamepad2.dpad_up) // winch up
+            else if(gamepad1.dpad_up) // winch up
                 winchMotor.setPower(-1);
             else
                 winchMotor.setPower(0);
@@ -135,9 +148,17 @@ public class RoadrunnerTeleOpTest extends LinearOpMode {
 
             if(gamepad1.y) {
                 direction = 1;
+                backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+                frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+                frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+                backRight.setDirection(DcMotorSimple.Direction.FORWARD);
             }
             else if(gamepad1.b) {
                 direction = -1;
+                backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+                frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+                frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+                backRight.setDirection(DcMotorSimple.Direction.REVERSE);
             }
 
             if(gamepad1.back) { // launch
@@ -185,14 +206,14 @@ public class RoadrunnerTeleOpTest extends LinearOpMode {
 
 
             // grabber
-            if(gamepad2.left_bumper) { // pinch grabber
+            if(gamepad2.right_bumper) { // pinch grabber
 //                grabberPos -= 0.1;
                 grabberServo.setPosition(0.39);
 //                telemetry.addData("grabber position: ", grabberPos);
 //                telemetry.update();
             }
 
-            if(gamepad2.right_bumper) { // release grabber
+            if(gamepad2.left_bumper) { // release grabber
 //                grabberPos += 0.1;
                 grabberServo.setPosition(0.5);
 //                telemetry.addData("grabber position: ", grabberPos);
@@ -209,11 +230,21 @@ public class RoadrunnerTeleOpTest extends LinearOpMode {
                 wristServo.setPosition(wristPos);
             }
 
+            if(gamepad2.x) {
+                wristPos = 1;
+                wristServo.setPosition(wristPos);
+            }
+
+            if(gamepad2.b) {
+                wristPos = 0;
+                wristServo.setPosition(wristPos);
+            }
+
             // slide
-            if(gamepad2.y) { // slide up
+            if(gamepad2.dpad_up) { // slide up
                 slideMotor.setPower(1);
             }
-            else if(gamepad2.a) { // slide down
+            else if(gamepad2.dpad_down) { // slide down
                 slideMotor.setPower(-1);
             }
             else
