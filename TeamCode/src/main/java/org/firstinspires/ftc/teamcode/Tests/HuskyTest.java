@@ -32,13 +32,19 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode.Tests;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,17 +63,27 @@ import java.util.concurrent.TimeUnit;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
-@Autonomous(name = "HuskyLens", group = "Sensor")
+@Autonomous(name = "HuskyTest", group = "Test")
 public class HuskyTest extends LinearOpMode {
 
     private final int READ_PERIOD = 1;
 
     private HuskyLens huskyLens;
 
+    private DcMotor backLeft;
+    private DcMotor frontLeft;
+    private DcMotor frontRight;
+    private DcMotor backRight;
+
+
+
+
     @Override
     public void runOpMode()
     {
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         /*
          * This sample rate limits the reads solely to allow a user time to observe
@@ -75,6 +91,7 @@ public class HuskyTest extends LinearOpMode {
          * would not likely rate limit.
          */
         Deadline rateLimit = new Deadline(READ_PERIOD, TimeUnit.SECONDS);
+        ElapsedTime elapsedTime = new ElapsedTime();
 
         /*
          * Immediately expire so that the first time through we'll do the read.
@@ -119,6 +136,23 @@ public class HuskyTest extends LinearOpMode {
          *
          * Note again that the device only recognizes the 36h11 family of tags out of the box.
          */
+
+        // trajectories
+        int speed = 50;
+        Trajectory slowLeft = drive.trajectoryBuilder(new Pose2d())
+                .strafeLeft(5,
+                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build();
+
+        Trajectory slowRight = drive.trajectoryBuilder(new Pose2d())
+                .strafeRight(5,
+                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build();
+
         while(opModeIsActive()) {
             if (!rateLimit.hasExpired()) {
                 continue;
@@ -136,11 +170,36 @@ public class HuskyTest extends LinearOpMode {
              */
             HuskyLens.Block[] blocks = huskyLens.blocks();
             telemetry.addData("Block count", blocks.length);
+
+            int targetBlock = 1;
             for (int i = 0; i < blocks.length; i++) {
-                telemetry.addData("Block", blocks[i].toString());
+
+                if(blocks[i].id == 2) {
+                    telemetry.addData("Block", blocks[i].toString());
+                    while(elapsedTime.seconds() < 4) {
+                        if(blocks[i].x > 155 && blocks[i].x < 165) {
+
+                        } else {
+                            if (blocks[i].x < 160) {
+                                drive.followTrajectory(slowLeft);
+                                telemetry.addData("Block", blocks[i].toString());
+
+                            } else if (blocks[i].x > 160) {
+                                drive.followTrajectory(slowRight);
+                                telemetry.addData("Block", blocks[i].toString());
+                            }
+                            telemetry.update();
+
+                        }
+
+                    }
+
+                }
             }
 
             telemetry.update();
         }
+
+
     }
 }
