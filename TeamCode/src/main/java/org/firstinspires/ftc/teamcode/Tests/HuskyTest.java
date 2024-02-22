@@ -176,15 +176,18 @@ public class HuskyTest extends LinearOpMode {
 
                 if(blocks[i].id == 2) {
                     telemetry.addData("Block", blocks[i].toString());
-                    while(elapsedTime.seconds() < 4) {
+                    while(elapsedTime.seconds() < 10) {
                         if(blocks[i].x > 155 && blocks[i].x < 165) {
+                            telemetry.addData("DONE", blocks[i].x);
+                            telemetry.update();
+
 
                         } else {
                             if (blocks[i].x < 160) {
                                 drive.followTrajectory(slowLeft);
                                 telemetry.addData("Block", blocks[i].toString());
 
-                            } else if (blocks[i].x > 160) {
+                            } if (blocks[i].x > 160) {
                                 drive.followTrajectory(slowRight);
                                 telemetry.addData("Block", blocks[i].toString());
                             }

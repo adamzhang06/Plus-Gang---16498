@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "TeleOpBrake", group = "Test")
+@TeleOp(name = "TeleOp", group = "Main")
 
 public class TeleOpBrake extends LinearOpMode {
     private DcMotor backLeft;
@@ -177,7 +177,7 @@ public class TeleOpBrake extends LinearOpMode {
             }
 
             if(gamepad1.back) { // launch
-                launcherServo.setPosition(1);
+                launcherServo.setPosition(.6);
 //                sleep(1000);
 //                launcherServo.setPosition(0);
             }
@@ -237,10 +237,10 @@ public class TeleOpBrake extends LinearOpMode {
             }
 
             // side grabber
-            if(gamepad2.dpad_left) { // grab
+            if(gamepad2.dpad_left) { // release
                 sideGrabberServo.setPosition(1);
             }
-            if(gamepad2.dpad_right) { // release
+            if(gamepad2.dpad_right) { // grab
                 sideGrabberServo.setPosition(.65);
             }
 

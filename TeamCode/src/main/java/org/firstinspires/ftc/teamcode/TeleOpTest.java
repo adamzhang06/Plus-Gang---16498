@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "TeleOp", group = "Main")
+@TeleOp(name = "TeleOpOld", group = "old")
 
 public class TeleOpTest extends LinearOpMode {
     private DcMotor backLeft;
