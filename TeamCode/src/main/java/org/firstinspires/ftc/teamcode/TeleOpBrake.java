@@ -51,6 +51,9 @@ public class TeleOpBrake extends LinearOpMode {
     private DcMotor winchMotor;
     private DcMotor slideMotor;
 
+    private Servo sideGrabberServo;
+    private Servo sideWristServo;
+
 
     @Override
     public void runOpMode() {
@@ -68,6 +71,8 @@ public class TeleOpBrake extends LinearOpMode {
         winchMotor = hardwareMap.get(DcMotor.class, "winchMotor");
         slideMotor = hardwareMap.get(DcMotor.class, "slideMotor");
         launcherServo = hardwareMap.get(Servo.class, "launcherServo");
+        sideGrabberServo = hardwareMap.get(Servo.class, "sideGrabberServo");
+        sideWristServo = hardwareMap.get(Servo.class, "sideWristServo");
 
         double grabberPos = 0.1;
         double grabberMinPos = 0.9;
@@ -87,6 +92,8 @@ public class TeleOpBrake extends LinearOpMode {
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+//        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // reverse motors
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -95,6 +102,9 @@ public class TeleOpBrake extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        sideWristServo.setPosition(0);
+
 
 
         waitForStart();
@@ -211,6 +221,7 @@ public class TeleOpBrake extends LinearOpMode {
 
 
             // grabber
+            // front grabber
             if(gamepad2.right_bumper) { // pinch grabber
 //                grabberPos -= 0.1;
                 grabberServo.setPosition(0.39);
@@ -225,7 +236,17 @@ public class TeleOpBrake extends LinearOpMode {
 //                telemetry.update();
             }
 
+            // side grabber
+            if(gamepad2.dpad_left) { // grab
+                sideGrabberServo.setPosition(1);
+            }
+            if(gamepad2.dpad_right) { // release
+                sideGrabberServo.setPosition(.65);
+            }
+
             // wrist
+
+            // front wrist
             if(gamepad2.left_stick_x != 0) {
                 wristPos += -gamepad2.left_stick_x;
                 if(wristPos < 0)
@@ -244,6 +265,15 @@ public class TeleOpBrake extends LinearOpMode {
                 wristPos = 0;
                 wristServo.setPosition(wristPos);
             }
+
+            // side wrist
+            if(gamepad2.y) { // up
+                sideWristServo.setPosition(0);
+            }
+            if(gamepad2.a) { // down
+                sideWristServo.setPosition(.8);
+            }
+
 
             // slide
             if(gamepad2.dpad_up) { // slide up

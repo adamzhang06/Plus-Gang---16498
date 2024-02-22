@@ -60,6 +60,10 @@ public class RedRight_PixelCenter extends LinearOpMode {
 
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        Servo sideWristServo = hardwareMap.get(Servo.class, "sideWristServo");
+        Servo sideGrabberServo = hardwareMap.get(Servo.class, "sideGrabberServo");
+        sideWristServo.setPosition(0);
+
 
 
         //define huskylens

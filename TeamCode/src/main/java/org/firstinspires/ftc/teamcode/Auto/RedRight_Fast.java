@@ -56,6 +56,10 @@ public class RedRight_Fast extends LinearOpMode {
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        Servo sideWristServo = hardwareMap.get(Servo.class, "sideWristServo");
+        Servo sideGrabberServo = hardwareMap.get(Servo.class, "sideGrabberServo");
+        sideWristServo.setPosition(0);
+
 
         //define huskylens
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");

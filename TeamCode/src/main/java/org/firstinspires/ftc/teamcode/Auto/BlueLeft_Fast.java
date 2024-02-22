@@ -53,9 +53,14 @@ public class BlueLeft_Fast extends LinearOpMode {
         grabberServo = hardwareMap.get(Servo.class, "grabberServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
 
+
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        Servo sideWristServo = hardwareMap.get(Servo.class, "sideWristServo");
+        Servo sideGrabberServo = hardwareMap.get(Servo.class, "sideGrabberServo");
+        sideWristServo.setPosition(0);
 
 
         //define huskylens

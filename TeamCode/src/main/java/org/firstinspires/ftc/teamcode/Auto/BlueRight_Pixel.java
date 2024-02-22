@@ -22,8 +22,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
-@Autonomous(name = "RedRight_Pixel", group = "4RedRight")
-public class RedRight_Pixel extends LinearOpMode {
+@Autonomous(name = "BlueRight_Pixel", group = "2BlueRight")
+public class BlueRight_Pixel extends LinearOpMode {
     // initialize motors
     private DcMotor backLeft;
     private DcMotor frontLeft;
@@ -31,7 +31,6 @@ public class RedRight_Pixel extends LinearOpMode {
     private DcMotor backRight;
 
     private DcMotor armMotor;
-
     private Servo grabberServo;
     private Servo wristServo;
 
@@ -54,14 +53,13 @@ public class RedRight_Pixel extends LinearOpMode {
         grabberServo = hardwareMap.get(Servo.class, "grabberServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
 
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
         Servo sideWristServo = hardwareMap.get(Servo.class, "sideWristServo");
         Servo sideGrabberServo = hardwareMap.get(Servo.class, "sideGrabberServo");
         sideWristServo.setPosition(0);
+
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         //define huskylens
         huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
@@ -84,13 +82,11 @@ public class RedRight_Pixel extends LinearOpMode {
 
         int speed = 25; // inches per second
         int slow = 20;
-        int armHeight = -5025; //TODO used to be -5150
+        int armHeight = -4900; //TODO used to be -5150
 
         Pose2d startPose = new Pose2d(0,0,0);
 
         drive.setPoseEstimate(startPose);
-
-        // TODO change forward and back to lines so it uses the PID
 
 //spikeLeft
         TrajectorySequence spikeLeft = drive.trajectorySequenceBuilder()
@@ -108,15 +104,31 @@ public class RedRight_Pixel extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(30.8, -33.3, Math.toRadians(-90)),
+                        new Pose2d(47, -23, Math.toRadians(-180)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
+//                .lineToLinearHeading(
+//                        new Pose2d(54, 0, Math.toRadians(90)),
+//                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+//                )
+//                .lineToLinearHeading(
+//                        new Pose2d(48, 65, Math.toRadians(90)),
+//                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+//                )
+//                .waitSeconds(3) //TODO calibrate time
+//                .lineToLinearHeading(
+//                        new Pose2d(21, 80.5, Math.toRadians(90)),
+//                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+//                )
                 .build();
 
 //spikeLeftBackUp
         TrajectorySequence spikeLeftBackUp = drive.trajectorySequenceBuilder(spikeLeft.end())
-                .back(3,
+                .back(2,
                         SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -125,7 +137,7 @@ public class RedRight_Pixel extends LinearOpMode {
 //spikeLeftPark
         TrajectorySequence spikeLeftPark = drive.trajectorySequenceBuilder(spikeLeftBackUp.end())
                 .lineToConstantHeading(
-                        new Vector2d(4, -33),
+                        new Vector2d(48, 80.5),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -144,123 +156,98 @@ public class RedRight_Pixel extends LinearOpMode {
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(26, -33.3, Math.toRadians(-90)),
+                        new Pose2d(21, -12, 0),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .lineToLinearHeading(
+                        new Pose2d(54, -12, 0),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .lineToLinearHeading(
+                        new Pose2d(48, 60, Math.toRadians(90)),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(4) //TODO calibrate time
+                .lineToLinearHeading(
+                        new Pose2d(28.9, 81, Math.toRadians(90)),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
 
 //spikeCenterBackUp
         TrajectorySequence spikeCenterBackUp = drive.trajectorySequenceBuilder(spikeCenter.end())
-                .back(3,
+                .back(2,
                         SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
 
-//spikeCenterPixel
-        TrajectorySequence spikeCenterPixel = drive.trajectorySequenceBuilder(spikeCenterBackUp.end())
-                .lineToLinearHeading(
-                        new Pose2d(29.25, 60, Math.toRadians(-90)),
-                        SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//spikeCenterPark
+        TrajectorySequence spikeCenterPark = drive.trajectorySequenceBuilder(spikeCenterBackUp.end())
+                .lineToConstantHeading(
+                        new Vector2d(48, 80.5),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
-                .build();
-
-//spikeCenterPixelPickUp
-        TrajectorySequence spikeCenterPixelPickUp = drive.trajectorySequenceBuilder(spikeCenterPixel.end())
-                .lineToLinearHeading(
-                        new Pose2d(29, 71.5, Math.toRadians(-90)),
-                        SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
-                .build();
-
-//spikeCenterPixelPark
-        TrajectorySequence spikeCenterPixelPark = drive.trajectorySequenceBuilder(spikeCenterPixelPickUp.end())
-                .lineToLinearHeading(
-                        new Pose2d(29, -31, Math.toRadians(-90))
-                )
-                .turn(Math.toRadians(180))
                 .build();
 
 //spikeRight
         TrajectorySequence spikeRight = drive.trajectorySequenceBuilder()
                 .splineToConstantHeading(
                         new Vector2d(21.5, -10.5), 0,
-                        SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
-                .lineToConstantHeading(
-                        new Vector2d(16.5, -10.5),
-                        SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .lineToLinearHeading(
-                        new Pose2d(17.7, -33.3, Math.toRadians(-90)),
+                        new Pose2d(16.5, -10.5),
                         SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .lineToLinearHeading(
+                        new Pose2d(16.5, 0),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .lineToLinearHeading(
+                        new Pose2d(54, 0, 0),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .lineToLinearHeading(
+                        new Pose2d(48, 60, Math.toRadians(90)),
+                        SampleMecanumDrive.getVelocityConstraint(speed, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .waitSeconds(4) //TODO calibrate time
+                .lineToLinearHeading(
+                        new Pose2d(34, 80.8, Math.toRadians(90)),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
 
 //spikeRightBackUp
         TrajectorySequence spikeRightBackUp = drive.trajectorySequenceBuilder(spikeRight.end())
-                .back(3,
+                .back(2,
                         SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
 
-//spikeRightPixel
-        TrajectorySequence spikeRightPixel = drive.trajectorySequenceBuilder(spikeRightBackUp.end())
-                .lineToLinearHeading(
-                        new Pose2d(4, 0, Math.toRadians(-90)),
-                        SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
-                .lineToLinearHeading(
-                        new Pose2d(4, 50, Math.toRadians(-90))
-//                        ,
-//                        SampleMecanumDrive.getVelocityConstraint(45, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-//                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
-                .lineToLinearHeading(
-                        new Pose2d(30.5, 62.5, Math.toRadians(-90)),
-                        SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
-
-                .build();
-
-//spikeRightPixelPickUp
-        TrajectorySequence spikeRightPixelPickUp = drive.trajectorySequenceBuilder(spikeRightPixel.end())
-                .lineToLinearHeading(
-                        new Pose2d(30.5, 71.5, Math.toRadians(-90)),
-                        SampleMecanumDrive.getVelocityConstraint(10, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+//spikeRightPark
+        TrajectorySequence spikeRightPark = drive.trajectorySequenceBuilder(spikeRightBackUp.end())
+                .lineToConstantHeading(
+                        new Vector2d(48, 80.5),
+                        SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
 
-//spikeRightPixelPark
-        TrajectorySequence spikeRightPixelPark = drive.trajectorySequenceBuilder(spikeRightPixelPickUp.end())
-                .lineToLinearHeading(
-                        new Pose2d(30, 60, Math.toRadians(-90)),
-                        SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
-                .build();
 
-//spikeRightPixelPark_2
-        TrajectorySequence spikeRightPixelPark_2 = drive.trajectorySequenceBuilder(spikeRightPixelPark.end())
-                .lineToLinearHeading(
-                        new Pose2d(5, 50, Math.toRadians(-90)),
-                        SampleMecanumDrive.getVelocityConstraint(35, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
-                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
-                .lineToLinearHeading(
-                        new Pose2d(5, -30, Math.toRadians(-90))
-                )
-                .build();
 
         wristServo.setPosition(1);
         sleep(500);
@@ -272,7 +259,7 @@ public class RedRight_Pixel extends LinearOpMode {
 
         //start color detect (algorithm defined earlier)
         //define x_pos
-        int x_pos = -1; //TODO change back to -1
+        int x_pos = 5 ; //TODO change to -1
 
         while (opModeIsActive()) {
 
@@ -289,7 +276,7 @@ public class RedRight_Pixel extends LinearOpMode {
 
                     for (int i = 0; i < blocks.length; i++) {
 
-                        if (blocks[i].id == 1 && blocks[i].width > 15) {
+                        if (blocks[i].id == 2 && blocks[i].width > 15) {
                             //TODO id #
                             x_pos = blocks[i].x;
                             telemetry.addData("x_pos: ", x_pos);
@@ -311,34 +298,39 @@ public class RedRight_Pixel extends LinearOpMode {
             //run trajectoryLeft
             drive.followTrajectorySequence(spikeLeft);
 
+
+
             grabberServo.setPosition(0.2);
             sleep(500);
-
-            //arm up
-            while(armMotor.getCurrentPosition() >= armHeight) {
-                armMotor.setPower(-0.5);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-
-            sleep(250);
-            grabberServo.setPosition(0.5);
-            sleep(500);
-
-            //back up
-            drive.followTrajectorySequence(spikeLeftBackUp);
-
-            //arm down
-            while(armMotor.getCurrentPosition() <= -500) {
-                armMotor.setPower(1);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
+            sideWristServo.setPosition(.8);
+            sideGrabberServo.setPosition(1);
+//
+//            //arm up
+//            while(armMotor.getCurrentPosition() >= armHeight) {
+//                armMotor.setPower(-0.5);
+//                telemetry.addData("position: ", armMotor.getCurrentPosition());
+//                telemetry.update();
+//            }
+//            armMotor.setPower(0);
+//            sleep(500);
+//
+//            grabberServo.setPosition(0.5);
+//            sleep(500);
+//
+//            //back up
+//            drive.followTrajectorySequence(spikeLeftBackUp);
+//
+//            //arm down
+//            while(armMotor.getCurrentPosition() <= -750) {
+//                armMotor.setPower(1);
+//                telemetry.addData("position: ", armMotor.getCurrentPosition());
+//                telemetry.update();
+//            }
+//            armMotor.setPower(0);
 
             //park
-            drive.followTrajectorySequence(spikeLeftPark);
+            //TODO removed for League
+//            drive.followTrajectorySequence(spikeLeftPark);
         }
 
         if (x_pos >= 107 && x_pos <= 213) {
@@ -350,7 +342,7 @@ public class RedRight_Pixel extends LinearOpMode {
             drive.followTrajectorySequence(spikeCenter);
 
             grabberServo.setPosition(0.2);
-            sleep(250);
+            sleep(500);
 
             //arm up
             while(armMotor.getCurrentPosition() >= armHeight) {
@@ -359,8 +351,8 @@ public class RedRight_Pixel extends LinearOpMode {
                 telemetry.update();
             }
             armMotor.setPower(0);
+            sleep(500);
 
-            sleep(250);
             grabberServo.setPosition(0.5);
             sleep(500);
 
@@ -368,54 +360,16 @@ public class RedRight_Pixel extends LinearOpMode {
             drive.followTrajectorySequence(spikeCenterBackUp);
 
             //arm down
-            while(armMotor.getCurrentPosition() <= -500) {
+            while(armMotor.getCurrentPosition() <= -750) {
                 armMotor.setPower(1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
             }
             armMotor.setPower(0);
 
-            //pixel
-            drive.followTrajectorySequence(spikeCenterPixel);
-
-            wristServo.setPosition(0);
-            sleep(250);
-
-            while(armMotor.getCurrentPosition() >= -625) {
-                armMotor.setPower(-0.5);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-
-            drive.followTrajectorySequence(spikeCenterPixelPickUp);
-
-            while(armMotor.getCurrentPosition() <= -150) {
-                armMotor.setPower(1);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-            sleep(500);
-
-            grabberServo.setPosition(0.2);
-            sleep(750);
-
-            while(armMotor.getCurrentPosition() >= -400) {
-                armMotor.setPower(-0.5);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-            sleep(150);
-
-            drive.followTrajectorySequence(spikeCenterPixelPark);
-
-            wristServo.setPosition(0.5);
-            sleep(150);
-
-            grabberServo.setPosition(0.5);
-
+            //park
+            //TODO removed for League
+//            drive.followTrajectorySequence(spikeCenterPark);
         }
 
         if (x_pos > 213) {
@@ -427,74 +381,38 @@ public class RedRight_Pixel extends LinearOpMode {
             drive.followTrajectorySequence(spikeRight);
 
             grabberServo.setPosition(0.2);
-            sleep(250);
+            sleep(500);
 
             //arm up
             while(armMotor.getCurrentPosition() >= armHeight) {
-                armMotor.setPower(-0.6);
+                armMotor.setPower(-0.5);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
             }
             armMotor.setPower(0);
+            sleep(500);
 
-            sleep(250);
             grabberServo.setPosition(0.5);
-            sleep(250);
+            sleep(500);
 
             //back up
             drive.followTrajectorySequence(spikeRightBackUp);
 
             //arm down
-            while(armMotor.getCurrentPosition() <= -500) {
+            while(armMotor.getCurrentPosition() <= -750) {
                 armMotor.setPower(1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
             }
             armMotor.setPower(0);
 
-            //pixel
-            drive.followTrajectorySequence(spikeRightPixel);
-
-            wristServo.setPosition(0);
-            sleep(250);
-
-            while(armMotor.getCurrentPosition() >= -625) {
-                armMotor.setPower(-1);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-
-            drive.followTrajectorySequence(spikeRightPixelPickUp);
-
-            while(armMotor.getCurrentPosition() <= -150) {
-                armMotor.setPower(1);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-            sleep(500);
-
-            grabberServo.setPosition(0.2);
-            sleep(500);
-
-            while(armMotor.getCurrentPosition() >= -400) {
-                armMotor.setPower(-1);
-                telemetry.addData("position: ", armMotor.getCurrentPosition());
-                telemetry.update();
-            }
-            armMotor.setPower(0);
-            sleep(150);
-
-            drive.followTrajectorySequence(spikeRightPixelPark);
-
-            wristServo.setPosition(1);
-            sleep(75);
-
-            drive.followTrajectorySequence(spikeRightPixelPark_2);
+            //park
+            //TODO removed for League
+//            drive.followTrajectorySequence(spikeRightPark);
         }
 
         //if nothing is detected go to the center spike
+        //TODO changed to left for Marquette
         if (x_pos == -1) {
             spikeZone = "left";
             telemetry.addData("spikeZone: ", spikeZone);
@@ -513,8 +431,8 @@ public class RedRight_Pixel extends LinearOpMode {
                 telemetry.update();
             }
             armMotor.setPower(0);
+            sleep(500);
 
-            sleep(250);
             grabberServo.setPosition(0.5);
             sleep(500);
 
@@ -530,7 +448,8 @@ public class RedRight_Pixel extends LinearOpMode {
             armMotor.setPower(0);
 
             //park
-            drive.followTrajectorySequence(spikeLeftPark);
+            //TODO removed for League
+//            drive.followTrajectorySequence(spikeLeftPark);
         }
         //end color detect
 
@@ -547,13 +466,13 @@ public class RedRight_Pixel extends LinearOpMode {
 
         //get ID # for tag to detect
         if (spikeZone == "left") {
-            tagID = 4;
+            tagID = 1;
         }
         if (spikeZone == "center") {
-            tagID = 5;
+            tagID = 2;
         }
         if (spikeZone == "right") {
-            tagID = 6;
+            tagID = 3;
         }
 
         //trajectories for moving left and right
