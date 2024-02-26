@@ -177,7 +177,7 @@ public class TeleOpBrake extends LinearOpMode {
             }
 
             if(gamepad1.back) { // launch
-                launcherServo.setPosition(.6);
+                launcherServo.setPosition(.4);
 //                sleep(1000);
 //                launcherServo.setPosition(0);
             }
@@ -284,6 +284,13 @@ public class TeleOpBrake extends LinearOpMode {
             }
             else
                 slideMotor.setPower(0);
+
+            if(gamepad2.back) {
+                armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+            else {
+                armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            }
 
             telemetry.addData("arm position: ", armMotor.getCurrentPosition());
             telemetry.update();
