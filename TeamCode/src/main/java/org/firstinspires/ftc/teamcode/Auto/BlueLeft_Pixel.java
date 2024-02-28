@@ -213,7 +213,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
 //spikeRightPark
         TrajectorySequence spikeRightPark = drive.trajectorySequenceBuilder(spikeRightBackUp.end())
                 .lineToConstantHeading(
-                        new Vector2d(4, 32.5),
+                        new Vector2d(1.5, 32.5),
                         SampleMecanumDrive.getVelocityConstraint(slow, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -339,7 +339,7 @@ public class BlueLeft_Pixel extends LinearOpMode {
             wristServo.setPosition(0);
             sleep(250);
 
-            while(armMotor.getCurrentPosition() >= -750) {
+            while(armMotor.getCurrentPosition() >= -650) {
                 armMotor.setPower(-1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();

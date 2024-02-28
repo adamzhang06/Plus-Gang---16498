@@ -85,7 +85,7 @@ public class RedLeft_Fast extends LinearOpMode {
 
         int speed = 25; // inches per second
         int slow = 20;
-        int armHeight = -4970; //TODO used to be -5150
+        int armHeight = -4970;
 
         Pose2d startPose = new Pose2d(0,0,0);
 

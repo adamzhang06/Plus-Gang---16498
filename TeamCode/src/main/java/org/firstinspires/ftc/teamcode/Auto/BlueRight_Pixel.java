@@ -80,7 +80,7 @@ public class BlueRight_Pixel extends LinearOpMode {
         int speed = 25; // inches per second
         int slow = 20;
         int fast = 33;
-        int armHeight = -4900; //TODO used to be -5150
+        int armHeight = -4900;
 
         Pose2d startPose = new Pose2d(0,0,0);
 
