@@ -479,12 +479,24 @@ public class RedLeft_Pixel extends LinearOpMode {
             //run trajectoryRight
             drive.followTrajectorySequence(spikeRight);
 
-            grabberServo.setPosition(0.2);
+            sleep(250);
+            sideWristServo.setPosition(.8);
+            sleep(750);
+
+            sideGrabberServo.setPosition(.65);
             sleep(500);
 
+            sideWristServo.setPosition(0);
+            sleep(750);
+
+            drive.followTrajectorySequence(spikeRightBoard);
+
+            grabberServo.setPosition(0.2);
+//            sleep(500);
+
             //arm up
-            while(armMotor.getCurrentPosition() >= armHeight) {
-                armMotor.setPower(-0.5);
+            while (armMotor.getCurrentPosition() >= armHeight) {
+                armMotor.setPower(-1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
             }
@@ -498,7 +510,7 @@ public class RedLeft_Pixel extends LinearOpMode {
             drive.followTrajectorySequence(spikeRightBackUp);
 
             //arm down
-            while(armMotor.getCurrentPosition() <= -750) {
+            while (armMotor.getCurrentPosition() <= -750) {
                 armMotor.setPower(1);
                 telemetry.addData("position: ", armMotor.getCurrentPosition());
                 telemetry.update();
@@ -507,6 +519,12 @@ public class RedLeft_Pixel extends LinearOpMode {
 
             //park
             drive.followTrajectorySequence(spikeRightPark);
+
+            sideWristServo.setPosition(0.9);
+            sleep(300);
+
+            sideGrabberServo.setPosition(1);
+            sleep(300);
         }
         //end color detect
 
