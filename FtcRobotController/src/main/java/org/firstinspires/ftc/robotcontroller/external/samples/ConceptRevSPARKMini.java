@@ -32,14 +32,15 @@ package org.firstinspires.ftc.robotcontroller.external.samples;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
 /*
- * This OpMode executes a basic Tank Drive Teleop for a two wheeled robot using two REV SPARKminis.
- * To use this example, connect two REV SPARKminis into servo ports on the Expansion Hub. On the
+ * This OpMode demonstrates a POV Drive system, with commented-out code for a Tank Drive system,
+ * for a two wheeled robot using two REV SPARKminis.
+ * To use this example, connect two REV SPARKminis into servo ports on the Control Hub. On the
  * robot configuration, use the drop down list under 'Servos' to select 'REV SPARKmini Controller'
  * and name them 'left_drive' and 'right_drive'.
  *
@@ -53,8 +54,8 @@ public class ConceptRevSPARKMini extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotorSimple leftDrive = null;
-    private DcMotorSimple rightDrive = null;
+    private DcMotor leftDrive = null;
+    private DcMotor rightDrive = null;
 
     @Override
     public void runOpMode() {
@@ -62,17 +63,16 @@ public class ConceptRevSPARKMini extends LinearOpMode {
         telemetry.update();
 
         // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
-        leftDrive  = hardwareMap.get(DcMotorSimple.class, "left_drive");
-        rightDrive = hardwareMap.get(DcMotorSimple.class, "right_drive");
+        // to 'get' must correspond to the names assigned during robot configuration.
+        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
+        rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backward when connected directly to the battery
-        leftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        // Wait for the game to start (driver presses PLAY)
+        // Wait for the game to start (driver presses START)
         waitForStart();
         runtime.reset();
 
